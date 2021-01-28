@@ -1,6 +1,6 @@
 {
   "name": "@vaadin/vaadin-messages",
-  "version": "1.0.0-alpha1",
+  "version": "0.1.0",
   "description": "vaadin-messages",
   "main": "vaadin-messages.js",
   "module": "vaadin-messages.js",

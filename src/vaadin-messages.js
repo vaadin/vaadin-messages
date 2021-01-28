@@ -93,7 +93,7 @@ class MessagesElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.0.0-alpha1';
+    return '0.1.0';
   }
 }
 
