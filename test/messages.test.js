@@ -23,25 +23,3 @@ describe('messages', () => {
     expect(value.textContent).to.be.equal('hello tests');
   });
 });
-
-describe('messages in column flex', () => {
-  let layout;
-  let messages;
-
-  beforeEach(() => {
-    layout = fixtureSync(`
-      <div style="display: flex; flex-direction: column; align-items: flex-start;">
-        <vaadin-messages></vaadin-messages>
-      </div>
-    `);
-    messages = layout.firstElementChild;
-  });
-
-  it('should have width of the parent', () => {
-    expect(messages.offsetWidth).to.equal(layout.offsetWidth);
-  });
-
-  it('should not collapse', () => {
-    expect(messages.offsetWidth).to.be.above(100);
-  });
-});
