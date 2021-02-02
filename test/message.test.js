@@ -17,7 +17,7 @@ describe('message', () => {
     user = {
       name: 'Joan Doe',
       abbr: 'JD',
-      img: 'https://i.pravatar.cc/150?img=39',
+      img: '/test/visual/avatars/avatar.jpg',
       colorIndex: 2
     };
   });
@@ -46,7 +46,7 @@ describe('message', () => {
     message.user = user;
     expect(avatar.getAttribute('name')).to.be.equal('Joan Doe');
     expect(avatar.getAttribute('abbr')).to.be.equal('JD');
-    expect(avatar.getAttribute('img')).to.be.equal('https://i.pravatar.cc/150?img=39');
+    expect(avatar.getAttribute('img')).to.be.equal('/test/visual/avatars/avatar.jpg');
     expect(avatar.getAttribute('title')).to.be.equal('Joan Doe (JD)');
     expect(avatar.getAttribute('has-color-index')).to.be.not.null;
   });
