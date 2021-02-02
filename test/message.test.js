@@ -49,6 +49,7 @@ describe('message', () => {
     expect(avatar.getAttribute('img')).to.be.equal('/test/visual/avatars/avatar.jpg');
     expect(avatar.getAttribute('title')).to.be.equal('Joan Doe (JD)');
     expect(avatar.getAttribute('has-color-index')).to.be.not.null;
+    expect(avatar.colorIndex).to.be.equal(2);
   });
 
   it('name should be set with provided user', () => {
