@@ -37,7 +37,8 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   static get properties() {
     return {
       /**
-       * Time is rendered as-is to the part='time' slot
+       * Time of sending the message. It is rendered as-is to the part='time' slot,
+       * so the formatting is up to you.
        */
       time: {
         type: String,
