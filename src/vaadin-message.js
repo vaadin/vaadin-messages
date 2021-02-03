@@ -6,7 +6,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
-import '@vaadin/vaadin-avatar';
+import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
  *
