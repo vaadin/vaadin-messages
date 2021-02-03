@@ -15,7 +15,13 @@ registerStyles(
     }
 
     .vaadin-message-wrapper {
-      padding-inline-start: 8px;
+      padding-left: 8px;
+      padding-right: 0;
+    }
+
+    :host([dir='rtl']) .vaadin-message-wrapper {
+      padding-left: 0;
+      padding-right: 8px;
     }
 
     .vaadin-message-header {
@@ -28,19 +34,6 @@ registerStyles(
 
     [part='time'] {
       color: var(--material-secondary-text-color);
-    }
-
-    /* IE11 is the only browser that we support that doesn't support
-     * padding-inline-start. For IE11, we use padding-left and padding-right instead. */
-    @media all and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      .vaadin-message-wrapper {
-        padding-left: 8px;
-        padding-right: 0;
-      }
-      :host([dir='rtl']) .vaadin-message-wrapper {
-        padding-left: 0;
-        padding-right: 8px;
-      }
     }
   `,
   { moduleId: 'material-message' }
