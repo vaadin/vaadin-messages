@@ -12,7 +12,7 @@ import '@vaadin/vaadin-avatar';
  *
  * ```html
  * <vaadin-message time="2021-01-28 10:43"
- *     user='{"name":"Bob Ross","abbr":"BR","img":"/test/visual/avatars/avatar.jpg"}'>There is no real ending. It's
+ *     user='{"name":"Bob Ross","abbr":"BR","img":"/static/img/avatar.jpg"}'>There is no real ending. It's
  *     just the place where you stop the story.</vaadin-message>
  * ```
  *
@@ -45,7 +45,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       },
       /**
        * A user object that can be used to render avatar and name.
-       * The user object can consist of the folowing properties:
+       * The user object can consist of the following properties:
        * ```js
        * user: {
        *   name: string,
