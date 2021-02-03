@@ -57,8 +57,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * ```
        */
       user: {
-        type: Object,
-        reflectToAttribute: true
+        type: Object
       }
     };
   }
