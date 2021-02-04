@@ -74,19 +74,23 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           display: none !important;
         }
 
-        .vaadin-message-wrapper {
+        [part='content'] {
           display: flex;
           flex-direction: column;
-          flex: 1;
+          flex-grow: 1;
         }
 
-        .vaadin-message-header {
+        [part='header'] {
+          align-items: baseline;
           display: flex;
           flex-direction: row;
+          flex-wrap: wrap;
         }
 
         [part='name'] {
-          flex: 1;
+        }
+
+        [part='time'] {
         }
       </style>
       <vaadin-avatar
@@ -98,12 +102,12 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         tabindex="-1"
         aria-hidden="true"
       ></vaadin-avatar>
-      <div class="vaadin-message-wrapper">
-        <div class="vaadin-message-header">
-          <div part="name">[[user.name]]</div>
-          <div part="time">[[time]]</div>
+      <div part="content">
+        <div part="header">
+          <span part="name">[[user.name]]</span>
+          <span part="time">[[time]]</span>
         </div>
-        <div part="content">
+        <div part="message">
           <slot></slot>
         </div>
       </div>
@@ -112,6 +116,8 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+    this.setAttribute('aria-live', 'polite');
+    this.setAttribute('role', 'listitem');
   }
 
   static get is() {

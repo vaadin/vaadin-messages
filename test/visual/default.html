@@ -33,7 +33,7 @@
 
   <script type="module">
     (async () => {
-      const theme = window.location.search.replace(/.*theme=(\w+).*/, '$1') || 'lumo';
+      const theme = window.location.search.replace(/.*theme=(\w+).*/, '$1') || 'material';
 
       await import('../../theme/' + theme + '/vaadin-message.js');
 
