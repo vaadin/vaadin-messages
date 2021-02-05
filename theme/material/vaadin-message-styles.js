@@ -22,12 +22,17 @@ registerStyles(
     }
 
     :host([dir='rtl']) vaadin-avatar {
-      margin-right: 0;
       margin-left: 0.5em;
+      margin-right: 0;
     }
 
     [part='name'] {
-      margin-inline-end: auto;
+      margin-right: auto;
+    }
+
+    :host([dir='rtl']) [part='name'] {
+      margin-left: auto;
+      margin-right: 0;
     }
 
     [part='time'] {

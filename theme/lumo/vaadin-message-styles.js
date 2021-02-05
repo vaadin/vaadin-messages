@@ -26,13 +26,18 @@ registerStyles(
     }
 
     :host([dir='rtl']) vaadin-avatar {
-      margin-right: 0;
       margin-left: var(--lumo-space-s);
+      margin-right: 0;
     }
 
     [part='name'] {
       font-weight: 500;
-      margin-inline-end: var(--lumo-space-s);
+      margin-right: var(--lumo-space-s);
+    }
+
+    :host([dir='rtl']) [part='name'] {
+      margin-left: var(--lumo-space-s);
+      margin-right: 0;
     }
 
     [part='time'] {
