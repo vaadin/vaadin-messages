@@ -85,5 +85,12 @@ describe('message-list', () => {
       expect(avatar.getAttribute('has-color-index')).to.be.not.null;
       expect(avatar.colorIndex).to.be.equal(messages[0].user.colorIndex);
     });
+
+    it('message list should scroll when height is less than content', () => {
+      messageList.style.height = '100px';
+      expect(messageList.scrollTop).to.be.equal(0);
+      messageList.scrollBy(0, 1000);
+      expect(messageList.scrollTop).to.be.at.least(1);
+    });
   });
 });
