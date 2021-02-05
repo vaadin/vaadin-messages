@@ -60,7 +60,16 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   static get template() {
     return html`
-      <style></style>
+      <style>
+        :host {
+          display: block;
+          overflow: auto;
+        }
+
+        :host([hidden]) {
+          display: none !important;
+        }
+      </style>
       <template is="dom-repeat" items="[[items]]">
         <vaadin-message time="[[item.time]]" user="[[item.user]]">[[item.text]]</vaadin-message>
       </template>
