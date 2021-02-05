@@ -24,12 +24,12 @@ import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.
  * @mixes ThemableMixin
  * @mixes ElementMixin
  */
-declare class MessageElement extends ThemableMixin(ElementMixin(HTMLElement)) {}
+declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)) {}
 
 declare global {
   interface HTMLElementTagNameMap {
-    'vaadin-message': MessageElement;
+    'vaadin-message-list': MessageListElement;
   }
 }
 
-export { MessageElement };
+export { MessageListElement };
