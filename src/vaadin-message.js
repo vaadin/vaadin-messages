@@ -74,6 +74,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           display: none !important;
         }
 
+        vaadin-avatar {
+          flex-shrink: 0;
+        }
+
         [part='content'] {
           display: flex;
           flex-direction: column;
@@ -85,12 +89,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-        }
-
-        [part='name'] {
-        }
-
-        [part='time'] {
         }
       </style>
       <vaadin-avatar

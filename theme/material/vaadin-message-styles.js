@@ -17,8 +17,13 @@ registerStyles(
     }
 
     vaadin-avatar {
-      margin-inline-end: 0.5em;
+      margin-right: 0.5em;
       margin-top: 0.125em;
+    }
+
+    :host([dir='rtl']) vaadin-avatar {
+      margin-right: 0;
+      margin-left: 0.5em;
     }
 
     [part='name'] {
