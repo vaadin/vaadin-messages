@@ -64,26 +64,9 @@ describe('message-list', () => {
 
     it('message properties should be correctly set', () => {
       const firstMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[0];
-      const content = firstMessage.shadowRoot.querySelector('[part="content"]');
-      const time = firstMessage.shadowRoot.querySelector('[part="time"]');
-      const name = firstMessage.shadowRoot.querySelector('[part="name"]');
-      const avatar = firstMessage.shadowRoot.querySelector('vaadin-avatar');
-
-      // Test that the <vaadin-message> slotted content is correct
-      const slot = content.querySelector('slot');
-      const nodes = slot.assignedNodes({ flatten: true });
-      expect(nodes[0].textContent).to.be.equal(messages[0].text);
-
-      // Test the direct dependencies
-      expect(time.textContent).to.be.equal(messages[0].time);
-      expect(name.textContent).to.be.equal(messages[0].user.name);
-
-      // Test that avatar is set up correctly.
-      expect(avatar.getAttribute('name')).to.be.equal(messages[0].user.name);
-      expect(avatar.getAttribute('abbr')).to.be.equal(messages[0].user.abbr);
-      expect(avatar.getAttribute('img')).to.be.equal(messages[0].user.img);
-      expect(avatar.getAttribute('has-color-index')).to.be.not.null;
-      expect(avatar.colorIndex).to.be.equal(messages[0].user.colorIndex);
+      expect(firstMessage.getAttribute('time')).to.be.equal(messages[0].time);
+      expect(firstMessage.user).to.be.equal(messages[0].user);
+      expect(firstMessage.textContent).to.be.equal(messages[0].text);
     });
 
     it('message list should scroll when height is less than content', () => {
