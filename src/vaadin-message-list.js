@@ -78,6 +78,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+    this.setAttribute('role', 'list');
   }
 
   static get is() {
