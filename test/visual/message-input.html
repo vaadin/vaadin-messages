@@ -20,6 +20,7 @@
     <vaadin-message-list
       items='[{"text":"Hello list","time":"yesterday", "user": {"name":"Matt Mambo","abbr":"MM","colorIndex":"1"}},{"text":"Another message","time":"right now", "user": {"name":"Linsey Listy","abbr":"LL","colorIndex":"2","img":"/test/visual/avatars/avatar.jpg"}}]'>
     </vaadin-message-list>
+    <vaadin-message-input></vaadin-message-input>
   </div>
 
   <script type="module">
@@ -27,6 +28,7 @@
       const theme = window.location.search.replace(/.*theme=(\w+).*/, '$1') || 'lumo';
 
       await import('../../theme/' + theme + '/vaadin-message-list.js');
+      await import('../../theme/' + theme + '/vaadin-message-input.js');
 
       window.requestAnimationFrame(() => {
         document.getElementById('tests').dataset.ready = true;
