@@ -7,10 +7,11 @@ import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.
  *
  * ```html
  * <vaadin-message-list
- *   items='[{"text":"Hello list","time":"yesterday", "user": {"name":"Matt Mambo","abbr":"MM","colorIndex":"1"}},{"text":"Hello list","time":"right now", "user": {"name":"Linsey Listy","abbr":"LL","colorIndex":"2"}}]'>
+ *   items='[{"text":"Hello list","time":"yesterday","userName":"Matt Mambo","userAbbr":"MM","userColorIndex":1},
+ *           {"text":"Another message","time":"right now", "userName":"Linsey Listy","userAbbr":"LL","userColorIndex":2, "userImg":"/test/visual/avatars/avatar.jpg"}]'>
  * </vaadin-message-list>
  * ```
- *
+ * It is recommended to set it programmatically by calling messageList.items = [...];
  * ### Styling
  *
  * The following shadow DOM parts are available for styling:
@@ -24,7 +25,7 @@ import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.
  * @mixes ThemableMixin
  * @mixes ElementMixin
  */
-declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)) {}
+declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)) { }
 
 declare global {
   interface HTMLElementTagNameMap {

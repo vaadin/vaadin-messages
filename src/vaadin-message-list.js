@@ -13,10 +13,11 @@ import './vaadin-message.js';
  *
  * ```html
  * <vaadin-message-list
- *   items='[{"text":"Hello list","time":"yesterday", "user": {"name":"Matt Mambo","abbr":"MM","colorIndex":"1"}},{"text":"Hello list","time":"right now", "user": {"name":"Linsey Listy","abbr":"LL","colorIndex":"2"}}]'>
+ *   items='[{"text":"Hello list","time":"yesterday","userName":"Matt Mambo","userAbbr":"MM","userColorIndex":1},
+ *           {"text":"Another message","time":"right now", "userName":"Linsey Listy","userAbbr":"LL","userColorIndex":2, "userImg":"/test/visual/avatars/avatar.jpg"}]'>
  * </vaadin-message-list>
  * ```
- *
+ * It is recommended to set it programmatically by calling messageList.items = [...];
  * ### Styling
  *
  * The following shadow DOM parts are available for styling:
@@ -40,12 +41,10 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * Array<{
        *   text: string,
        *   time: string,
-       *   user: {
-       *     name: string,
-       *     abbr: string,
-       *     img: string,
-       *     colorIndex: number
-       *   }
+       *   userName: string,
+       *   userAbbr: string,
+       *   userImg: string,
+       *   userColorIndex: number
        * }>
        * ```
        */
@@ -71,7 +70,14 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
       </style>
       <template is="dom-repeat" items="[[items]]">
-        <vaadin-message time="[[item.time]]" user="[[item.user]]">[[item.text]]</vaadin-message>
+        <vaadin-message
+          time="[[item.time]]"
+          user-name="[[item.userName]]"
+          user-abbr="[[item.userAbbr]]"
+          user-img="[[item.userImg]]"
+          user-color-index="[[item.userColorIndex]]"
+          >[[item.text]]</vaadin-message
+        >
       </template>
     `;
   }

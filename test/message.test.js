@@ -2,8 +2,15 @@ import { expect } from '@esm-bundle/chai';
 import { fixtureSync } from '@open-wc/testing-helpers';
 import '../vaadin-message.js';
 
+function setUser(message) {
+  message.userName = 'Joan Doe';
+  message.userAbbr = 'JD';
+  message.userImg = '/test/visual/avatars/avatar.jpg';
+  message.userColorIndex = 2;
+}
+
 describe('message', () => {
-  let message, avatar, content, time, name, user;
+  let message, avatar, content, time, name;
 
   beforeEach(() => {
     let root = document.documentElement;
@@ -14,12 +21,6 @@ describe('message', () => {
     name = message.shadowRoot.querySelector('[part="name"]');
     content = message.shadowRoot.querySelector('[part="content"]');
     time = message.shadowRoot.querySelector('[part="time"]');
-    user = {
-      name: 'Joan Doe',
-      abbr: 'JD',
-      img: '/test/visual/avatars/avatar.jpg',
-      colorIndex: 2
-    };
   });
 
   it('should have a valid version number', () => {
@@ -43,17 +44,17 @@ describe('message', () => {
   });
 
   it('avatar should be set with provided user', () => {
-    message.user = user;
+    setUser(message);
     expect(avatar.getAttribute('name')).to.be.equal('Joan Doe');
     expect(avatar.getAttribute('abbr')).to.be.equal('JD');
     expect(avatar.getAttribute('img')).to.be.equal('/test/visual/avatars/avatar.jpg');
-    expect(avatar.getAttribute('title')).to.be.equal('Joan Doe (JD)');
+    expect(avatar.getAttribute('title')).to.be.equal('Joan Doe');
     expect(avatar.getAttribute('has-color-index')).to.be.not.null;
     expect(avatar.colorIndex).to.be.equal(2);
   });
 
   it('name should be set with provided user', () => {
-    message.user = user;
+    setUser(message);
     expect(name.textContent).to.be.equal('Joan Doe');
   });
 
