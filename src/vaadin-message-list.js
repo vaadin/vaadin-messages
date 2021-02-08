@@ -20,9 +20,9 @@ import './vaadin-message.js';
  * Provide the messages to the message list with the `items` property.
  * ```js
  * document.querySelector('vaadin-message-list').items = [
- *     { text: 'Hello list', time: 'yesterday', userName: 'Matt Mambo', userAbbr: 'MM', userColorIndex: 1 },
- *     { text: 'Another message', time: 'right now', userName: 'Linsey Listy', userAbbr: 'LL', userColorIndex: 2, userImg: '/static/img/avatar.jpg' }
- *   ];
+ *   { text: 'Hello list', time: 'yesterday', userName: 'Matt Mambo', userAbbr: 'MM', userColorIndex: 1 },
+ *   { text: 'Another message', time: 'right now', userName: 'Linsey Listy', userAbbr: 'LL', userColorIndex: 2, userImg: '/static/img/avatar.jpg' }
+ * ];
  * ```
  *
  * ### Styling
