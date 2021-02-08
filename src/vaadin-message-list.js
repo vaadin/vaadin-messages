@@ -86,7 +86,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   _itemsChanged(newVal, oldVal) {
     if (
       (!oldVal || newVal.length > oldVal.length) && // there are new items
-      this.offsetTop + this.offsetHeight < window.pageYOffset + window.innerHeight // bottom of window
+      this.scrollHeight < this.clientHeight + this.scrollTop + 50 // bottom of list
     ) {
       microTask.run(() => this._scrollToLastMessage());
     }
@@ -94,7 +94,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _scrollToLastMessage() {
     if (this.items.length > 0) {
-      this.shadowRoot.querySelectorAll('vaadin-message')[this.items.length - 1].scrollIntoView();
+      this.scrollTop = this.scrollHeight - this.clientHeight;
     }
   }
 
