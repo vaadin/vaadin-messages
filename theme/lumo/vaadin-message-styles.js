@@ -21,10 +21,8 @@ registerStyles(
     }
 
     vaadin-avatar {
-      height: var(--lumo-size-m);
       margin-right: var(--lumo-space-m);
       margin-top: var(--lumo-space-s);
-      width: var(--lumo-size-m);
     }
 
     :host([dir='rtl']) vaadin-avatar {
