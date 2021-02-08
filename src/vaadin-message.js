@@ -58,10 +58,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       },
 
       /**
-       * The abbriviation of the user.
+       * The abbreviation of the user.
        * The abbreviation will be passed on to avatar of the message.
        * If the user does not have an avatar picture set with `userImg`, `userAbbr` will be shown in the avatar.
-       * Example: `message.userAbbr = "JJ`
+       * Example: `message.userAbbr = "JJ";`
        */
       userAbbr: {
         type: String,
@@ -94,11 +94,11 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        *
        * JavaScript:
        * ```js
-       * message.userColorIndex = 1
+       * message.userColorIndex = 1;
        * ```
        */
       userColorIndex: {
-        type: String,
+        type: Number,
         reflectToAttribute: true
       }
     };

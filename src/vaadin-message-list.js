@@ -14,7 +14,7 @@ import './vaadin-message.js';
  * ```html
  * <vaadin-message-list
  *   items='[{"text":"Hello list","time":"yesterday","userName":"Matt Mambo","userAbbr":"MM","userColorIndex":1},
- *           {"text":"Another message","time":"right now", "userName":"Linsey Listy","userAbbr":"LL","userColorIndex":2, "userImg":"/test/visual/avatars/avatar.jpg"}]'>
+ *           {"text":"Another message","time":"right now","userName":"Linsey Listy","userAbbr":"LL","userColorIndex":2,"userImg":"/static/img/avatar.jpg"}]'>
  * </vaadin-message-list>
  * ```
  * It is recommended to set it programmatically by calling messageList.items = [...];
