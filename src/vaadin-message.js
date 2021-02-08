@@ -114,7 +114,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
-    this.setAttribute('aria-live', 'polite');
     this.setAttribute('role', 'listitem');
   }
 

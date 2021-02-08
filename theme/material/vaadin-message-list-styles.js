@@ -6,8 +6,8 @@ import './vaadin-message-styles.js';
 registerStyles(
   'vaadin-message-list',
   css`
-    :host {
-      padding: 8px;
+    ol {
+      padding: 8px 0;
     }
   `,
   { moduleId: 'material-message-list' }
