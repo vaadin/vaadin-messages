@@ -75,7 +75,9 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
 
         vaadin-avatar {
+          border: none;
           flex-shrink: 0;
+          margin: 0;
         }
 
         [part='content'] {

@@ -21,12 +21,14 @@ registerStyles(
     }
 
     vaadin-avatar {
-      margin-right: var(--lumo-space-s);
-      margin-top: calc(var(--lumo-space-xs) * 1.5);
+      height: var(--lumo-size-m);
+      margin-right: var(--lumo-space-m);
+      margin-top: var(--lumo-space-s);
+      width: var(--lumo-size-m);
     }
 
     :host([dir='rtl']) vaadin-avatar {
-      margin-left: var(--lumo-space-s);
+      margin-left: var(--lumo-space-m);
       margin-right: 0;
     }
 
