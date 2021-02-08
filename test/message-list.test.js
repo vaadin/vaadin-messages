@@ -60,7 +60,7 @@ describe('message-list', () => {
 
     it('message properties should be correctly set', () => {
       const firstMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[0];
-      expect(firstMessage.getAttribute('time')).to.be.equal(messages[0].time);
+      expect(firstMessage.time).to.be.equal(messages[0].time);
       expect(firstMessage.userName).to.be.equal(messages[0].userName);
       expect(firstMessage.userAbbr).to.be.equal(messages[0].userAbbr);
       expect(firstMessage.userImg).to.be.equal(messages[0].userImg);

@@ -42,8 +42,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * so the formatting is up to you.
        */
       time: {
-        type: String,
-        reflectToAttribute: true
+        type: String
       },
 
       /**
@@ -53,8 +52,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * Example: `message.userName = "Jessica Jacobs";`
        */
       userName: {
-        type: String,
-        reflectToAttribute: true
+        type: String
       },
 
       /**
@@ -64,8 +62,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * Example: `message.userAbbr = "JJ";`
        */
       userAbbr: {
-        type: String,
-        reflectToAttribute: true
+        type: String
       },
 
       /**
@@ -74,8 +71,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * Example: `message.userImg = "/static/img/avatar.jpg";`
        */
       userImg: {
-        type: String,
-        reflectToAttribute: true
+        type: String
       },
 
       /**
@@ -98,8 +94,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * ```
        */
       userColorIndex: {
-        type: Number,
-        reflectToAttribute: true
+        type: Number
       }
     };
   }
