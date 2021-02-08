@@ -93,7 +93,9 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _scrollToLastMessage() {
-    this.shadowRoot.querySelectorAll('vaadin-message')[this.items.length - 1].scrollIntoView();
+    if (this.items.length > 0) {
+      this.shadowRoot.querySelectorAll('vaadin-message')[this.items.length - 1].scrollIntoView();
+    }
   }
 
   static get is() {
