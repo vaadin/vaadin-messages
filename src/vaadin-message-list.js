@@ -16,6 +16,7 @@ import './vaadin-message.js';
  * ```html
  * <vaadin-message-list></vaadin-message-list>
  * ```
+ *
  * Provide the messages to the message list with the `items` property.
  * ```js
  * document.querySelector('vaadin-message-list').items = [
@@ -23,7 +24,7 @@ import './vaadin-message.js';
  *     { text: 'Another message', time: 'right now', userName: 'Linsey Listy', userAbbr: 'LL', userColorIndex: 2, userImg: '/static/img/avatar.jpg' }
  *   ];
  * ```
- * It is recommended to set it programmatically by calling messageList.items = [...];
+ *
  * ### Styling
  *
  * The following shadow DOM parts are available for styling:
