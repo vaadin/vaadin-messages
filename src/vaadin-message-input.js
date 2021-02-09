@@ -34,8 +34,19 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
-    // TODO: set rows="1" and min-height: 0 for vaadin-text-area.
+
+    // Set aria-label to provide an accessible name for the labelless input
+    const textarea = this.shadowRoot.querySelector('vaadin-text-area').inputElement;
+    textarea.setAttribute('aria-label', 'Message');
+    textarea.removeAttribute('aria-labelledby');
+
+    // Set initial height to one row
+    textarea.setAttribute('rows', 1);
+    textarea.style.minHeight = '0';
+
     // Set button theme (primary for Lumo, contained for Material)
+    const button = this.shadowRoot.querySelector('vaadin-button');
+    button.setAttribute('theme', 'primary');
   }
 
   static get is() {
