@@ -16,10 +16,15 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     return html`
       <style>
         :host {
+          align-items: flex-start;
+          box-sizing: border-box;
           display: flex;
+          max-height: 50vh;
+          overflow: hidden;
         }
         vaadin-text-area {
           flex-grow: 1;
+          max-height: 100%;
           padding: 0;
         }
         vaadin-button {
@@ -46,7 +51,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
     // Set button theme (primary for Lumo, contained for Material)
     const button = this.shadowRoot.querySelector('vaadin-button');
-    button.setAttribute('theme', 'primary');
+    button.setAttribute('theme', 'primary contained');
   }
 
   static get is() {
