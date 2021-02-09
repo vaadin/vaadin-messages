@@ -20,6 +20,10 @@ registerStyles(
       -webkit-text-size-adjust: 100%;
     }
 
+    :host([focus-ring]) {
+      box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    }
+
     vaadin-avatar {
       margin-right: var(--lumo-space-m);
       margin-top: var(--lumo-space-s);

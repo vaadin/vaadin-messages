@@ -78,7 +78,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           display: none !important;
         }
       </style>
-      <div role="list">
+      <div part="list" role="list">
         <template is="dom-repeat" items="[[items]]">
           <vaadin-message
             time="[[item.time]]"
@@ -96,9 +96,21 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+
+    // Make screen readers announce new messages
     this.setAttribute('aria-relevant', 'additions');
     this.setAttribute('role', 'log');
+
+    // Make vaadin-message-list focusable using tab key
     this.setAttribute('tabindex', '0');
+
+    // Keyboard navi
+    this.addEventListener('keydown', (e) => this._onKeydown(e));
+  }
+
+  /** @protected */
+  get _messages() {
+    return Array.from(this.shadowRoot.querySelectorAll('vaadin-message'));
   }
 
   _itemsChanged(newVal, oldVal) {
@@ -106,7 +118,11 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       (!oldVal || newVal.length > oldVal.length) && // there are new items
       this.scrollHeight < this.clientHeight + this.scrollTop + 50 // bottom of list
     ) {
-      microTask.run(() => this._scrollToLastMessage());
+      microTask.run(() => {
+        // TODO: do not reset focus
+        this._setFocusable(0);
+        this._scrollToLastMessage();
+      });
     }
   }
 
@@ -114,6 +130,93 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     if (this.items.length > 0) {
       this.scrollTop = this.scrollHeight - this.clientHeight;
     }
+  }
+
+  /**
+   * @param {!KeyboardEvent} event
+   * @protected
+   */
+  _onKeydown(event) {
+    if (event.metaKey || event.ctrlKey) {
+      return;
+    }
+
+    // only check keyboard events on messages
+    const target = event.composedPath()[0];
+    const currentIdx = this._messages.indexOf(target);
+
+    if (currentIdx === -1) {
+      return;
+    }
+
+    let idx, increment;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        increment = -1;
+        idx = currentIdx - 1;
+        break;
+      case 'ArrowDown':
+        increment = 1;
+        idx = currentIdx + 1;
+        break;
+      case 'Home':
+        increment = 1;
+        idx = 0;
+        break;
+      case 'End':
+        increment = -1;
+        idx = this._messages.length - 1;
+        break;
+      default:
+      // nothing to do
+    }
+
+    idx = this._getAvailableIndex(idx, increment);
+    if (idx >= 0) {
+      this._focus(idx);
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * @param {number} idx
+   * @param {number} increment
+   * @return {number}
+   * @protected
+   */
+  _getAvailableIndex(idx, increment) {
+    const totalItems = this.items.length;
+    for (let i = 0; typeof idx == 'number' && i < totalItems; i++, idx += increment || 1) {
+      if (idx < 0) {
+        idx = totalItems - 1;
+      } else if (idx >= totalItems) {
+        idx = 0;
+      }
+
+      return idx;
+    }
+    return -1;
+  }
+
+  /**
+   * @param {number} idx
+   * @protected
+   */
+  _focus(idx) {
+    const target = this._messages[idx];
+    this._setFocusable(idx);
+    target.focus();
+  }
+
+  /**
+   * @param {number} idx
+   * @protected
+   */
+  _setFocusable(idx) {
+    idx = this._getAvailableIndex(idx, 1);
+    const target = this._messages[idx] || this._messages[0];
+    this._messages.forEach((e) => (e.tabIndex = e === target ? 0 : -1));
   }
 
   static get is() {

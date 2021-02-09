@@ -7,6 +7,7 @@ registerStyles(
   'vaadin-message',
   css`
     :host {
+      color: var(--material-body-text-color);
       font-family: var(--material-font-family);
       font-size: var(--material-body-font-size);
       line-height: 1.5;
@@ -14,6 +15,14 @@ registerStyles(
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
+    }
+
+    :host([focus-ring]) {
+      background-color: var(--material-divider-color);
+    }
+
+    :host(:hover) {
+      background-color: var(--material-secondary-background-color);
     }
 
     vaadin-avatar {

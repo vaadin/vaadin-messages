@@ -8,9 +8,12 @@ import './vaadin-message-styles.js';
 registerStyles(
   'vaadin-message-list',
   css`
-    :host(:focus) {
-      box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    :host {
       outline: none;
+    }
+
+    [part='list'] {
+      padding: 2px;
     }
   `,
   { moduleId: 'lumo-message-list' }
