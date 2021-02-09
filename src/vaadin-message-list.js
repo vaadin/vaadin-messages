@@ -72,7 +72,14 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       </style>
       <div role="list">
         <template is="dom-repeat" items="[[items]]">
-          <vaadin-message time="[[item.time]]" user="[[item.user]]">[[item.text]]</vaadin-message>
+          <vaadin-message
+            time="[[item.time]]"
+            user-name="[[item.userName]]"
+            user-abbr="[[item.userAbbr]]"
+            user-img="[[item.userImg]]"
+            user-color-index="[[item.userColorIndex]]"
+            >[[item.text]]</vaadin-message
+          >
         </template>
       </div>
     `;
