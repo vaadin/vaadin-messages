@@ -21,7 +21,7 @@ registerStyles(
     }
 
     :host([focus-ring]) {
-      box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+      box-shadow: inset 0 0 0 2px var(--lumo-primary-color-50pct);
     }
 
     vaadin-avatar {

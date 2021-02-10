@@ -12,8 +12,8 @@ registerStyles(
       outline: none;
     }
 
-    [part='list'] {
-      padding: 2px;
+    :host([focus-ring]) {
+      box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     }
   `,
   { moduleId: 'lumo-message-list' }

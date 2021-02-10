@@ -6,9 +6,6 @@ import './vaadin-message-styles.js';
 registerStyles(
   'vaadin-message-list',
   css`
-    :host {
-    }
-
     [part='list'] {
       padding: 8px 0;
     }
