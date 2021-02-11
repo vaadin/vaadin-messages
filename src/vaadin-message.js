@@ -6,7 +6,12 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-context-menu/src/vaadin-context-menu.js';
+import '@vaadin/vaadin-icons/vaadin-icons.js';
+
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
  *
@@ -105,6 +110,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         :host {
           display: flex;
           flex-direction: row;
+          position: relative;
         }
 
         :host([hidden]) {
@@ -124,10 +130,19 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
 
         [part='header'] {
-          align-items: baseline;
           display: flex;
-          flex-direction: row;
+        }
+
+        [part='sender'] {
+          align-items: center;
+          display: flex;
+          flex-grow: 1;
           flex-wrap: wrap;
+        }
+
+        vaadin-button {
+          flex-shrink: 0;
+          line-height: 1;
         }
       </style>
       <vaadin-avatar
@@ -141,8 +156,21 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       ></vaadin-avatar>
       <div part="content">
         <div part="header">
-          <span part="name">[[userName]]</span>
-          <span part="time">[[time]]</span>
+          <div part="sender">
+            <span part="name">[[userName]]</span>
+            <span part="time">[[time]]</span>
+          </div>
+          <vaadin-context-menu open-on="click">
+            <vaadin-button
+              aria-controls="vaadin-message-actions-menu"
+              aria-haspopup="true"
+              aria-label="Actions"
+              id="vaadin-message-actions-button"
+              theme="icon tertiary-inline"
+            >
+              <iron-icon aria-hidden="true" icon="vaadin:ellipsis-dots-v"></iron-icon>
+            </vaadin-button>
+          </vaadin-context-menu>
         </div>
         <div part="message">
           <slot></slot>
@@ -153,6 +181,34 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+
+    const contextMenu = this.shadowRoot.querySelector('vaadin-context-menu');
+    contextMenu.renderer = function (root) {
+      let listBox = root.firstElementChild;
+      if (listBox) {
+        listBox.innerHTML = '';
+      } else {
+        listBox = window.document.createElement('vaadin-list-box');
+        listBox.setAttribute('aria-labelledby', 'vaadin-message-actions-button');
+
+        // Unfortunately the vaadin-messages are in the shadow root, so this doesn't matter :/
+        listBox.setAttribute('id', 'vaadin-message-actions-menu');
+        root.appendChild(listBox);
+
+        // Must be set after appendChild, otherwise it gets overridden
+        listBox.setAttribute('role', 'menu');
+      }
+
+      // This should probably not be hardcoded? :D
+      const editMessage = window.document.createElement('vaadin-item');
+      editMessage.textContent = 'Edit message';
+      listBox.appendChild(editMessage);
+
+      const deleteMessage = window.document.createElement('vaadin-item');
+      deleteMessage.textContent = 'Delete message';
+      deleteMessage.setAttribute('theme', 'error');
+      listBox.appendChild(deleteMessage);
+    };
   }
 
   static get is() {
