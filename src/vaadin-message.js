@@ -161,8 +161,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             <span part="time">[[time]]</span>
           </div>
           <vaadin-context-menu open-on="click">
+            <!-- When the menu opens, we should set aria-expanded to 'true' -->
             <vaadin-button
               aria-controls="vaadin-message-actions-menu"
+              aria-expanded="false"
               aria-haspopup="true"
               aria-label="Actions"
               id="vaadin-message-actions-button"
@@ -199,13 +201,14 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         listBox.setAttribute('role', 'menu');
       }
 
-      // This should probably not be hardcoded? :D
+      // This should probably not be hardcoded! :D
       const editMessage = window.document.createElement('vaadin-item');
       editMessage.textContent = 'Edit message';
       listBox.appendChild(editMessage);
 
       const deleteMessage = window.document.createElement('vaadin-item');
       deleteMessage.textContent = 'Delete message';
+      // This theme variant is coming soon!™
       deleteMessage.setAttribute('theme', 'error');
       listBox.appendChild(deleteMessage);
     };
