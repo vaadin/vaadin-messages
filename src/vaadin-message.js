@@ -185,6 +185,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
     const button = this.shadowRoot.querySelector('vaadin-message-menu-button');
     button.addEventListener('click', this._openMenu.bind(this));
+    button.addEventListener('keydown', (e) => this._onKeydown(e));
   }
 
   /**
@@ -203,7 +204,8 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     return this.shadowRoot.querySelector('vaadin-message-context-menu');
   }
 
-  _openMenu(event) {
+  /* private */
+  _openMenu(event, options = {}) {
     event.stopPropagation();
 
     const button = this._button;
@@ -233,12 +235,32 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       );
       button.setAttribute('aria-expanded', 'true');
     });
+
+    if (options.focusLast) {
+      this.__onceOpened(() => this._focusLastItem());
+    }
+
+    if (options.keepFocus) {
+      this.__onceOpened(() => {
+        this._focusButton(button);
+      });
+    }
+
+    // do not focus item when open not from keyboard
+    if (event.type !== 'keydown') {
+      this.__onceOpened(() => {
+        menu.$.overlay.$.overlay.focus();
+      });
+    }
   }
 
-  /** @private */
-  _focusButton(button) {
-    button.focus();
-    button.setAttribute('focus-ring', '');
+  /**
+   * @param {boolean} restoreFocus
+   * @protected
+   */
+  _close(restoreFocus) {
+    this.__deactivateButton(restoreFocus);
+    this._menu.opened && this._menu.close();
   }
 
   /** @private */
@@ -250,13 +272,51 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     }
   }
 
+  /** @private */
+  __onceOpened(cb) {
+    const overlay = this._menu.$.overlay;
+    const listener = () => {
+      cb();
+      overlay.removeEventListener('vaadin-overlay-open', listener);
+    };
+    overlay.addEventListener('vaadin-overlay-open', listener);
+  }
+
+  /** @private */
+  _focusLastItem() {
+    const list = this._menu.$.overlay.firstElementChild;
+    const item = list.items[list.items.length - 1];
+    item && item.focus();
+  }
+
+  /** @private */
+  _focusButton(button) {
+    button.focus();
+    button.setAttribute('focus-ring', '');
+  }
+
   /**
-   * @param {boolean} restoreFocus
+   * @param {!KeyboardEvent} event
    * @protected
    */
-  _close(restoreFocus) {
-    this.__deactivateButton(restoreFocus);
-    this._menu.opened && this._menu.close();
+  _onKeydown(event) {
+    if (event.keyCode === 40) {
+      // ArrowDown, prevent page scroll
+      event.preventDefault();
+      this._openMenu(event);
+    } else if (event.keyCode === 38) {
+      // ArrowUp, prevent page scroll
+      event.preventDefault();
+      this._openMenu(event, { focusLast: true });
+    } else if (event.keyCode === 27) {
+      this._close(true);
+    }
+  }
+
+  /** @private */
+  _focusFirstItem() {
+    const list = this._menu.$.overlay.firstElementChild;
+    list.focus();
   }
 
   static get is() {
