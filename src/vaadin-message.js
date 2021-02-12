@@ -167,6 +167,8 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             aria-haspopup="true"
             aria-label="Menu"
             id="vaadin-message-menu-button"
+            on-click="_onMenuButtonClick"
+            on-keydown="_onMenuButtonKeyDown"
             part="menu-button"
           >
             <span class="dots"></span>
@@ -193,10 +195,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
-
-    const button = this._button;
-    button.addEventListener('click', this._openMenu.bind(this));
-    button.addEventListener('keydown', (e) => this._onKeydown(e));
   }
 
   /**
@@ -213,6 +211,11 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    */
   get _menu() {
     return this.shadowRoot.querySelector('vaadin-message-menu');
+  }
+
+  /* private */
+  _onMenuButtonClick(event) {
+    this._openMenu(event);
   }
 
   /* private */
@@ -307,7 +310,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * @param {!KeyboardEvent} event
    * @protected
    */
-  _onKeydown(event) {
+  _onMenuButtonKeyDown(event) {
     if (event.keyCode === 40) {
       // ArrowDown, prevent page scroll
       event.preventDefault();
