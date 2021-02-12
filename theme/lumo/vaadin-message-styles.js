@@ -5,8 +5,10 @@ import '@vaadin/vaadin-lumo-styles/spacing.js';
 import '@vaadin/vaadin-lumo-styles/style.js';
 import '@vaadin/vaadin-lumo-styles/typography.js';
 import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar-styles.js';
-import '@vaadin/vaadin-context-menu/theme/lumo/vaadin-context-menu-styles.js';
 import './vaadin-message-menu-button-styles.js';
+import './vaadin-message-menu-item-styles.js';
+import './vaadin-message-menu-list-box-styles.js';
+import './vaadin-message-menu-styles.js';
 
 registerStyles(
   'vaadin-message',

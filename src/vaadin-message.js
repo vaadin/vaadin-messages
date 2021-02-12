@@ -8,11 +8,11 @@ import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mix
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
-import '@vaadin/vaadin-context-menu/src/vaadin-context-menu.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
-import './vaadin-message-context-menu.js';
+import './vaadin-message-menu.js';
 import './vaadin-message-menu-button.js';
+import './vaadin-message-menu-item.js';
+import './vaadin-message-menu-list-box.js';
 
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
@@ -162,7 +162,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             <span part="time">[[time]]</span>
           </div>
           <vaadin-message-menu-button
-            aria-controls="vaadin-message-context-menu"
+            aria-controls="vaadin-message-menu-list-box"
             aria-expanded="false"
             aria-haspopup="true"
             aria-label="Menu"
@@ -171,7 +171,18 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           >
             <span class="dots"></span>
           </vaadin-message-menu-button>
-          <vaadin-message-context-menu></vaadin-message-context-menu>
+          <vaadin-message-menu>
+            <template>
+              <vaadin-message-menu-list-box
+                aria-labelledby="vaadin-message-menu-button"
+                id="vaadin-message-menu-list-box"
+                role="menu"
+              >
+                <vaadin-message-menu-item role="menuitem">Edit message</vaadin-message-menu-item>
+                <vaadin-message-menu-item role="menuitem" theme="error">Delete message</vaadin-message-menu-item>
+              </vaadin-message-menu-list-box>
+            </template>
+          </vaadin-message-menu>
         </div>
         <div part="message">
           <slot></slot>
@@ -201,7 +212,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * @protected
    */
   get _menu() {
-    return this.shadowRoot.querySelector('vaadin-message-context-menu');
+    return this.shadowRoot.querySelector('vaadin-message-menu');
   }
 
   /* private */
@@ -218,8 +229,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       }
     }
 
-    const items = [{ text: 'Edit message' }, { text: 'Delete message' }];
-    menu.items = items;
     menu.listenOn = button;
 
     const rect = button.getBoundingClientRect();
@@ -228,8 +237,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         new CustomEvent('opensubmenu', {
           detail: {
             x: this.__isRTL ? rect.right : rect.left,
-            y: rect.bottom,
-            children: items
+            y: rect.bottom
           }
         })
       );

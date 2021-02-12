@@ -8,9 +8,9 @@ import { ContextMenuElement } from '@vaadin/vaadin-context-menu/src/vaadin-conte
 /**
  * @extends PolymerElement
  */
-class MessageContextMenuElement extends ContextMenuElement {
+class MessageMenuElement extends ContextMenuElement {
   static get is() {
-    return 'vaadin-message-context-menu';
+    return 'vaadin-message-menu';
   }
 
   constructor() {
@@ -38,4 +38,4 @@ class MessageContextMenuElement extends ContextMenuElement {
   }
 }
 
-customElements.define(MessageContextMenuElement.is, MessageContextMenuElement);
+customElements.define(MessageMenuElement.is, MessageMenuElement);
