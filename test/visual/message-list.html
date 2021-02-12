@@ -26,7 +26,7 @@
       await import('../../theme/' + theme + '/vaadin-message-list.js');
 
       window.requestAnimationFrame(() => {
-        const messageList = document.getElementsByTagName('vaadin-message-list')[0];
+        const messageList = document.querySelector('vaadin-message-list');
         messageList.items = [
           {
             text: 'Hello list',
