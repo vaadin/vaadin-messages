@@ -183,7 +183,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   ready() {
     super.ready();
 
-    const button = this.shadowRoot.querySelector('vaadin-message-menu-button');
+    const button = this._button;
     button.addEventListener('click', this._openMenu.bind(this));
     button.addEventListener('keydown', (e) => this._onKeydown(e));
   }
@@ -218,7 +218,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       }
     }
 
-    const items = ['Edit', 'Delete'];
+    const items = [{ text: 'Edit message' }, { text: 'Delete message' }];
     menu.items = items;
     menu.listenOn = button;
 
