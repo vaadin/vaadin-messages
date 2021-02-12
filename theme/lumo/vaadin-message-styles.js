@@ -5,8 +5,7 @@ import '@vaadin/vaadin-lumo-styles/spacing.js';
 import '@vaadin/vaadin-lumo-styles/style.js';
 import '@vaadin/vaadin-lumo-styles/typography.js';
 import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar.js';
-import '@vaadin/vaadin-button/theme/lumo/vaadin-button.js';
-import '@vaadin/vaadin-context-menu/theme/lumo/vaadin-context-menu.js';
+import './vaadin-message-menu-button-styles.js';
 
 registerStyles(
   'vaadin-message',
@@ -45,11 +44,6 @@ registerStyles(
     [part='time'] {
       color: var(--lumo-secondary-text-color);
       font-size: var(--lumo-font-size-s);
-    }
-
-    vaadin-button {
-      align-self: flex-start;
-      margin-top: calc(((var(--lumo-font-size-m) * var(--lumo-line-height-m)) - var(--lumo-icon-size-m)) / 2);
     }
   `,
   { moduleId: 'lumo-message' }
