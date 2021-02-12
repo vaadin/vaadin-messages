@@ -183,35 +183,80 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   ready() {
     super.ready();
 
-    const contextMenu = this.shadowRoot.querySelector('vaadin-message-context-menu');
-    contextMenu.renderer = function (root) {
-      let listBox = root.firstElementChild;
-      if (listBox) {
-        listBox.innerHTML = '';
-      } else {
-        listBox = window.document.createElement('vaadin-list-box');
-        listBox.setAttribute('aria-labelledby', 'vaadin-message-menu-button');
+    const button = this.shadowRoot.querySelector('vaadin-message-menu-button');
+    button.addEventListener('click', this._openMenu.bind(this));
+  }
 
-        // Unfortunately the vaadin-messages are in the shadow root, so this doesn't matter :/
-        listBox.setAttribute('id', 'vaadin-message-context-menu');
-        root.appendChild(listBox);
+  /**
+   * @return {!HTMLElement}
+   * @protected
+   */
+  get _button() {
+    return this.shadowRoot.querySelector('vaadin-message-menu-button');
+  }
 
-        // Must be set after appendChild, otherwise it gets overridden
-        listBox.setAttribute('role', 'menu');
+  /**
+   * @return {!HTMLElement}
+   * @protected
+   */
+  get _menu() {
+    return this.shadowRoot.querySelector('vaadin-message-context-menu');
+  }
+
+  _openMenu(event) {
+    event.stopPropagation();
+
+    const button = this._button;
+    const menu = this._menu;
+
+    if (menu.opened) {
+      this._close();
+      if (menu.listenOn === button) {
+        return;
       }
+    }
 
-      // This should probably not be hardcoded! :D
-      const editMessage = window.document.createElement('vaadin-item');
-      editMessage.textContent = 'Edit message';
-      listBox.appendChild(editMessage);
+    const items = ['Edit', 'Delete'];
+    menu.items = items;
+    menu.listenOn = button;
 
-      const deleteMessage = window.document.createElement('vaadin-item');
-      deleteMessage.textContent = 'Delete message';
+    const rect = button.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      button.dispatchEvent(
+        new CustomEvent('opensubmenu', {
+          detail: {
+            x: this.__isRTL ? rect.right : rect.left,
+            y: rect.bottom,
+            children: items
+          }
+        })
+      );
+      button.setAttribute('aria-expanded', 'true');
+    });
+  }
 
-      // This theme variant is coming soon!™
-      deleteMessage.setAttribute('theme', 'error');
-      listBox.appendChild(deleteMessage);
-    };
+  /** @private */
+  _focusButton(button) {
+    button.focus();
+    button.setAttribute('focus-ring', '');
+  }
+
+  /** @private */
+  __deactivateButton(restoreFocus) {
+    const button = this._button;
+    button.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) {
+      this._focusButton(button);
+    }
+  }
+
+  /**
+   * @param {boolean} restoreFocus
+   * @protected
+   */
+  _close(restoreFocus) {
+    this.__deactivateButton(restoreFocus);
+    this._menu.opened && this._menu.close();
   }
 
   static get is() {

@@ -4,7 +4,8 @@ import '@vaadin/vaadin-lumo-styles/sizing.js';
 import '@vaadin/vaadin-lumo-styles/spacing.js';
 import '@vaadin/vaadin-lumo-styles/style.js';
 import '@vaadin/vaadin-lumo-styles/typography.js';
-import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar.js';
+import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar-styles.js';
+import '@vaadin/vaadin-context-menu/theme/lumo/vaadin-context-menu-styles.js';
 import './vaadin-message-menu-button-styles.js';
 
 registerStyles(
@@ -28,6 +29,15 @@ registerStyles(
 
     :host([dir='rtl']) vaadin-avatar {
       margin-left: var(--lumo-space-m);
+      margin-right: 0;
+    }
+
+    [part='sender'] {
+      margin-right: var(--lumo-space-s);
+    }
+
+    :host([dir='rtl']) [part='sender'] {
+      margin-left: var(--lumo-space-s);
       margin-right: 0;
     }
 

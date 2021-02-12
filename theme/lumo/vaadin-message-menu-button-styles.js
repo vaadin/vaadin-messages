@@ -4,16 +4,21 @@ import '@vaadin/vaadin-lumo-styles/typography.js';
 import '@vaadin/vaadin-button/theme/lumo/vaadin-button.js';
 
 registerStyles(
-  'vaadin-message-menu-button-styles',
+  'vaadin-message-menu-button',
   css`
-    :host {
+    :host([part='menu-button']) {
       align-self: flex-start;
       background: none;
-      height: var(--lumo-icon-size-m);
-      margin: calc(((var(--lumo-font-size-m) * var(--lumo-line-height-m)) - var(--lumo-icon-size-m)) / 2) 0 0 0;
+      margin: calc(((var(--lumo-font-size-m) * var(--lumo-line-height-m)) - var(--lumo-button-size)) / 2);
       min-width: 0;
       padding: 0;
-      width: var(--lumo-icon-size-m);
+      width: var(--lumo-button-size);
+    }
+
+    :host([part='menu-button']) ::slotted(*) {
+      display: block;
+      font-size: var(--lumo-font-size-xl);
+      transform: rotate(90deg);
     }
   `,
   { include: ['lumo-button'], moduleId: 'lumo-message-menu-button' }

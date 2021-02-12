@@ -2,7 +2,7 @@ import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styl
 import '@vaadin/vaadin-button/theme/material/vaadin-button-styles.js';
 
 registerStyles(
-  'vaadin-message-menu-button-styles',
+  'vaadin-message-menu-button',
   css`
     :host {
       border-radius: 50%;

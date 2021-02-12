@@ -2,6 +2,7 @@ import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styl
 import '@vaadin/vaadin-material-styles/color.js';
 import '@vaadin/vaadin-material-styles/typography.js';
 import '@vaadin/vaadin-avatar/theme/material/vaadin-avatar-styles.js';
+import '@vaadin/vaadin-context-menu/material/lumo/vaadin-context-menu-styles.js';
 import './vaadin-message-menu-button-styles.js';
 
 registerStyles(
