@@ -58,7 +58,7 @@
     "@polymer/polymer": "^3.0.0",
     "@vaadin/vaadin-avatar": "^1.0.3",
     "@vaadin/vaadin-button": "^2.4.0",
-    "@vaadin/vaadin-context-menu": "^5.0.0",
+    "@vaadin/vaadin-context-menu": "^4.5.0",
     "@vaadin/vaadin-element-mixin": "^2.4.1",
     "@vaadin/vaadin-icons": "^4.3.2",
     "@vaadin/vaadin-item": "^2.3.0",
