@@ -155,9 +155,6 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * @protected
    */
   _onKeydown(event) {
-    // Remove focus ring
-    this._setFocused(false);
-
     if (event.metaKey || event.ctrlKey) {
       return;
     }
@@ -167,6 +164,8 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     const currentIdx = this._messages.indexOf(target);
 
     if (currentIdx === -1) {
+      // Remove focus ring
+      this._setFocused(false);
       return;
     }
 
