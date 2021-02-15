@@ -15,7 +15,7 @@ class MessageMenuElement extends ContextMenuElement {
 
   constructor() {
     super();
-    this.openOn = 'opensubmenu';
+    this.openOn = 'openmessagemenu';
   }
 
   /**

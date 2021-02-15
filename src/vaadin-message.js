@@ -237,7 +237,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     const rect = button.getBoundingClientRect();
     requestAnimationFrame(() => {
       button.dispatchEvent(
-        new CustomEvent('opensubmenu', {
+        new CustomEvent('openmessagemenu', {
           detail: {
             x: this.__isRTL ? rect.right : rect.left,
             y: rect.bottom
