@@ -103,9 +103,27 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
     // Make vaadin-message-list focusable using tab key
     this.setAttribute('tabindex', '0');
+    this.addEventListener('focus', () => this._setFocused(true), true);
+    this.addEventListener('blur', () => this._setFocused(false), true);
 
     // Keyboard navi
     this.addEventListener('keydown', (e) => this._onKeydown(e));
+  }
+
+  /**
+   * @param {boolean} focused
+   * @protected
+   */
+  _setFocused(focused) {
+    if (focused) {
+      this.setAttribute('focused', '');
+      if (!this._mousedown) {
+        this.setAttribute('focus-ring', '');
+      }
+    } else {
+      this.removeAttribute('focused');
+      this.removeAttribute('focus-ring');
+    }
   }
 
   /** @protected */
@@ -137,6 +155,9 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * @protected
    */
   _onKeydown(event) {
+    // Remove focus ring
+    this._setFocused(false);
+
     if (event.metaKey || event.ctrlKey) {
       return;
     }
