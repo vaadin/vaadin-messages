@@ -16,15 +16,6 @@ import '@vaadin/vaadin-text-field/src/vaadin-text-area.js';
  * <vaadin-message-input></vaadin-message-input>
  * ```
  *
- * ### Styling
- *
- * The following shadow DOM parts are available for styling:
- *
- * Part name | Description
- * ----------|----------------
- *
- * See [ThemableMixin – how to apply styles for shadow parts](https://github.com/vaadin/vaadin-themable-mixin/wiki)
- *
  * @extends HTMLElement
  * @mixes ThemableMixin
  * @mixes ElementMixin
@@ -55,6 +46,14 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     `;
   }
 
+  static get is() {
+    return 'vaadin-message-input';
+  }
+
+  static get version() {
+    return '1.0.0-alpha1';
+  }
+
   ready() {
     super.ready();
 
@@ -66,14 +65,6 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     // Set initial height to one row
     textarea.setAttribute('rows', 1);
     textarea.style.minHeight = '0';
-  }
-
-  static get is() {
-    return 'vaadin-message-input';
-  }
-
-  static get version() {
-    return '1.0.0-alpha1';
   }
 }
 
