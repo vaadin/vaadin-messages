@@ -6,7 +6,14 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
+import '@vaadin/vaadin-icons/vaadin-icons.js';
+import './vaadin-message-menu.js';
+import './vaadin-message-menu-button.js';
+import './vaadin-message-menu-item.js';
+import './vaadin-message-menu-list-box.js';
+
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
  *
@@ -105,6 +112,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         :host {
           display: flex;
           flex-direction: row;
+          position: relative;
         }
 
         :host([hidden]) {
@@ -124,10 +132,18 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
 
         [part='header'] {
-          align-items: baseline;
           display: flex;
-          flex-direction: row;
+        }
+
+        [part='sender'] {
+          align-items: center;
+          display: flex;
+          flex-grow: 1;
           flex-wrap: wrap;
+        }
+
+        .dots::before {
+          content: '\\00B7\\00B7\\00B7';
         }
       </style>
       <vaadin-avatar
@@ -141,8 +157,34 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       ></vaadin-avatar>
       <div part="content">
         <div part="header">
-          <span part="name">[[userName]]</span>
-          <span part="time">[[time]]</span>
+          <div part="sender">
+            <span part="name">[[userName]]</span>
+            <span part="time">[[time]]</span>
+          </div>
+          <vaadin-message-menu-button
+            aria-controls="vaadin-message-menu-list-box"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-label="Menu"
+            id="vaadin-message-menu-button"
+            on-click="_onMenuButtonClick"
+            on-keydown="_onMenuButtonKeyDown"
+            part="menu-button"
+          >
+            <span class="dots"></span>
+          </vaadin-message-menu-button>
+          <vaadin-message-menu>
+            <template>
+              <vaadin-message-menu-list-box
+                aria-labelledby="vaadin-message-menu-button"
+                id="vaadin-message-menu-list-box"
+                role="menu"
+              >
+                <vaadin-message-menu-item role="menuitem">Edit message</vaadin-message-menu-item>
+                <vaadin-message-menu-item role="menuitem" theme="error">Delete message</vaadin-message-menu-item>
+              </vaadin-message-menu-list-box>
+            </template>
+          </vaadin-message-menu>
         </div>
         <div part="message">
           <slot></slot>
@@ -153,6 +195,139 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+  }
+
+  /**
+   * @return {!HTMLElement}
+   * @protected
+   */
+  get _button() {
+    return this.shadowRoot.querySelector('vaadin-message-menu-button');
+  }
+
+  /**
+   * @return {!HTMLElement}
+   * @protected
+   */
+  get _menu() {
+    return this.shadowRoot.querySelector('vaadin-message-menu');
+  }
+
+  /* private */
+  _onMenuButtonClick(event) {
+    this._openMenu(event);
+  }
+
+  /* private */
+  _openMenu(event, options = {}) {
+    event.stopPropagation();
+
+    const button = this._button;
+    const menu = this._menu;
+
+    if (menu.opened) {
+      this._close();
+      if (menu.listenOn === button) {
+        return;
+      }
+    }
+
+    menu.listenOn = button;
+
+    const rect = button.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      button.dispatchEvent(
+        new CustomEvent('openmessagemenu', {
+          detail: {
+            x: this.__isRTL ? rect.right : rect.left,
+            y: rect.bottom
+          }
+        })
+      );
+      button.setAttribute('aria-expanded', 'true');
+    });
+
+    if (options.focusLast) {
+      this.__onceOpened(() => this._focusLastItem());
+    }
+
+    if (options.keepFocus) {
+      this.__onceOpened(() => {
+        this._focusButton(button);
+      });
+    }
+
+    // do not focus item when open not from keyboard
+    if (event.type !== 'keydown') {
+      this.__onceOpened(() => {
+        menu.$.overlay.$.overlay.focus();
+      });
+    }
+  }
+
+  /**
+   * @param {boolean} restoreFocus
+   * @protected
+   */
+  _close(restoreFocus) {
+    this.__deactivateButton(restoreFocus);
+    this._menu.opened && this._menu.close();
+  }
+
+  /** @private */
+  __deactivateButton(restoreFocus) {
+    const button = this._button;
+    button.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) {
+      this._focusButton(button);
+    }
+  }
+
+  /** @private */
+  __onceOpened(cb) {
+    const overlay = this._menu.$.overlay;
+    const listener = () => {
+      cb();
+      overlay.removeEventListener('vaadin-overlay-open', listener);
+    };
+    overlay.addEventListener('vaadin-overlay-open', listener);
+  }
+
+  /** @private */
+  _focusLastItem() {
+    const list = this._menu.$.overlay.firstElementChild;
+    const item = list.items[list.items.length - 1];
+    item && item.focus();
+  }
+
+  /** @private */
+  _focusButton(button) {
+    button.focus();
+    button.setAttribute('focus-ring', '');
+  }
+
+  /**
+   * @param {!KeyboardEvent} event
+   * @protected
+   */
+  _onMenuButtonKeyDown(event) {
+    if (event.keyCode === 40) {
+      // ArrowDown, prevent page scroll
+      event.preventDefault();
+      this._openMenu(event);
+    } else if (event.keyCode === 38) {
+      // ArrowUp, prevent page scroll
+      event.preventDefault();
+      this._openMenu(event, { focusLast: true });
+    } else if (event.keyCode === 27) {
+      this._close(true);
+    }
+  }
+
+  /** @private */
+  _focusFirstItem() {
+    const list = this._menu.$.overlay.firstElementChild;
+    list.focus();
   }
 
   static get is() {

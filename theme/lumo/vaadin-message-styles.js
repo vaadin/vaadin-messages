@@ -4,7 +4,11 @@ import '@vaadin/vaadin-lumo-styles/sizing.js';
 import '@vaadin/vaadin-lumo-styles/spacing.js';
 import '@vaadin/vaadin-lumo-styles/style.js';
 import '@vaadin/vaadin-lumo-styles/typography.js';
-import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar.js';
+import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar-styles.js';
+import './vaadin-message-menu-button-styles.js';
+import './vaadin-message-menu-item-styles.js';
+import './vaadin-message-menu-list-box-styles.js';
+import './vaadin-message-menu-styles.js';
 
 registerStyles(
   'vaadin-message',
@@ -30,8 +34,17 @@ registerStyles(
       margin-right: 0;
     }
 
+    [part='sender'] {
+      margin-right: var(--lumo-space-s);
+    }
+
+    :host([dir='rtl']) [part='sender'] {
+      margin-left: var(--lumo-space-s);
+      margin-right: 0;
+    }
+
     [part='name'] {
-      font-weight: 500;
+      font-weight: 600;
       margin-right: var(--lumo-space-s);
     }
 
