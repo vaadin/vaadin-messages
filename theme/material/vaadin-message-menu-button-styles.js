@@ -16,6 +16,12 @@ registerStyles(
     :host([dir='rtl']) {
       margin: -0.5rem 0.5rem -0.5rem -0.5rem;
     }
+
+    :host([part='menu-button']) ::slotted(*) {
+      display: block;
+      font-size: var(--material-icon-font-size);
+      transform: rotate(90deg);
+    }
   `,
   { include: ['material-button'], moduleId: 'material-message-menu-button' }
 );
