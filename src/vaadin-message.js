@@ -100,13 +100,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        */
       userColorIndex: {
         type: Number
-      },
-
-      /** @private */
-      _opened: {
-        type: Boolean,
-        observer: '__openedChanged',
-        value: false
       }
     };
   }
@@ -166,7 +159,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             <span part="name">[[userName]]</span>
             <span part="time">[[time]]</span>
           </div>
-          <vaadin-message-menu open-on="click">
+          <vaadin-message-menu>
             <vaadin-message-menu-button
               aria-controls="menu-list-box"
               aria-expanded="false"
@@ -199,7 +192,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   ready() {
     super.ready();
 
-    const menu = this.shadowRoot.querySelector('vaadin-message-menu');
+    const menu = this._menu();
     menu.renderer = function (root) {
       let listBox = root.firstElementChild;
 
@@ -219,6 +212,35 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       deleteItem.setAttribute('theme', 'error');
       listBox.appendChild(deleteItem);
     };
+  }
+
+  /** @private */
+  get _button() {
+    return this.shadowRoot.querySelector('vaadin-message-menu-button');
+  }
+
+  /** @private */
+  get _menu() {
+    return this.shadowRoot.querySelector('vaadin-message-menu');
+  }
+
+  /** @private */
+  _onMenuButtonClick(event) {
+    this._openMenu(event);
+  }
+
+  /** @private */
+  _onMenuButtonKeyDown(event) {
+    // Open menu on RETURN, SPACE or DOWN ARROW
+    if (event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) {
+      this._openMenu(event);
+    }
+  }
+
+  /** @private */
+  _openMenu(event) {
+    this._button().setAttribute('aria-expanded', 'true');
+    this._menu().open(event);
   }
 }
 
