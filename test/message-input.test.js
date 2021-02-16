@@ -1,7 +1,7 @@
 import { expect } from '@esm-bundle/chai';
 import sinon from 'sinon';
 import { fixtureSync } from '@open-wc/testing-helpers';
-import { pressEnter, pressAndReleaseKeyOn } from '@polymer/iron-test-helpers/mock-interactions.js';
+import { keyDownOn } from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../vaadin-message-input.js';
 
 describe('message-input', () => {
@@ -27,47 +27,35 @@ describe('message-input', () => {
   });
 
   describe('submit functionality', () => {
-    function testInput(done) {
-      messageInput.addEventListener('submit', function (e) {
-        expect(e.detail.text).to.be.equal('foo');
-        setTimeout(() => {
-          expect(messageInput.text).to.be.empty;
-          done();
-        }, 0);
-      });
-    }
-
-    it('calling submitMessage() should fire a submit event', (done) => {
-      testInput(done);
-      messageInput.text = 'foo';
-      messageInput.submitMessage();
-    });
-
-    it('clicking button should fire a submit event', (done) => {
-      messageInput.addEventListener('submit', function (e) {
-        expect(e.detail.text).to.be.equal('foo');
-        setTimeout(() => {
-          expect(messageInput.text).to.be.empty;
-          done();
-        }, 0);
-      });
-      messageInput.text = 'foo';
-      button.click();
-    });
-
-    it('pressing enter on input field should fire a submit event', (done) => {
-      testInput(done);
-      textArea.value = 'foo';
-      pressEnter(textArea.inputElement);
-    });
-
-    it('pressing shift+enter should not fire a submit event', () => {
+    it('should fire a submit event when calling submitMessage()', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
+      messageInput.text = 'foo';
+      messageInput.submitMessage();
+      expect(spy.calledOnce).to.be.true;
+    });
 
+    it('should fire a submit event won button click', () => {
+      const spy = sinon.spy();
+      messageInput.addEventListener('submit', spy);
+      messageInput.text = 'foo';
+      button.click();
+      expect(spy.calledOnce).to.be.true;
+    });
+
+    it('should fire a submit event on Enter keydown', () => {
+      const spy = sinon.spy();
+      messageInput.addEventListener('submit', spy);
       textArea.value = 'foo';
-      pressAndReleaseKeyOn(textArea.inputElement, 63, 'shift');
+      keyDownOn(textArea.inputElement, 13, [], 'Enter');
+      expect(spy.calledOnce).to.be.true;
+    });
 
+    it('should not fire a submit event on Shift + Enter keydown', () => {
+      const spy = sinon.spy();
+      messageInput.addEventListener('submit', spy);
+      textArea.value = 'foo';
+      keyDownOn(textArea.inputElement, 13, ['shift'], 'Enter');
       expect(spy.called).to.be.false;
     });
   });
