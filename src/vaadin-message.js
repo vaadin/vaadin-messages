@@ -234,14 +234,14 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   /** @private */
   _onMenuButtonKeyDown(event) {
-    event.preventDefault();
-
     // RETURN, SPACE, DOWN ARROW: open menu & focus first item
     if (event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) {
+      event.preventDefault();
       this._openMenu(event);
 
       // UP ARROW: open menu & focus last item
     } else if (event.keyCode === 38) {
+      event.preventDefault();
       this._openMenu(event, { focusLast: true });
     }
   }
