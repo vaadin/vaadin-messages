@@ -10,15 +10,6 @@ import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.
  * <vaadin-message-input></vaadin-message-input>
  * ```
  *
- * ### Styling
- *
- * The following shadow DOM parts are available for styling:
- *
- * Part name | Description
- * ----------|----------------
- *
- * See [ThemableMixin – how to apply styles for shadow parts](https://github.com/vaadin/vaadin-themable-mixin/wiki)
- *
  * @extends HTMLElement
  * @mixes ThemableMixin
  * @mixes ElementMixin
