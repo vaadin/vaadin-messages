@@ -6,14 +6,7 @@
 import { ItemElement } from '@vaadin/vaadin-item/src/vaadin-item.js';
 import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styles.js';
 
-registerStyles(
-  'vaadin-message-menu-item',
-  css`
-    :host {
-    }
-  `,
-  { moduleId: 'vaadin-message-menu-item-styles' }
-);
+registerStyles('vaadin-message-menu-item', css``, { moduleId: 'vaadin-message-menu-item-styles' });
 
 /**
  * @extends PolymerElement
@@ -21,6 +14,7 @@ registerStyles(
 class MessageMenuItemElement extends ItemElement {
   ready() {
     super.ready();
+    this.setAttribute('role', 'menuitem');
   }
 
   static get is() {
