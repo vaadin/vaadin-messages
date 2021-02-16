@@ -105,6 +105,14 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     this.setAttribute('tabindex', '0');
     this.addEventListener('focus', () => this._setFocused(true), true);
     this.addEventListener('blur', () => this._setFocused(false), true);
+    this.addEventListener('mousedown', () => {
+      this._setActive((this._mousedown = true));
+      const mouseUpListener = () => {
+        this._setActive((this._mousedown = false));
+        document.removeEventListener('mouseup', mouseUpListener);
+      };
+      document.addEventListener('mouseup', mouseUpListener);
+    });
 
     // Keyboard navi
     this.addEventListener('keydown', (e) => this._onKeydown(e));
@@ -123,6 +131,18 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     } else {
       this.removeAttribute('focused');
       this.removeAttribute('focus-ring');
+    }
+  }
+
+  /**
+   * @param {boolean} active
+   * @protected
+   */
+  _setActive(active) {
+    if (active) {
+      this.setAttribute('active', '');
+    } else {
+      this.removeAttribute('active');
     }
   }
 
