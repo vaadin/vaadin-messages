@@ -15,6 +15,30 @@ class MessageMenuElement extends ContextMenuElement {
   static get is() {
     return 'vaadin-message-menu';
   }
+
+  constructor() {
+    super();
+    this.openOn = 'openmessagemenu';
+  }
+
+  ready() {
+    super.ready();
+    this.$.overlay.addEventListener('keydown', (event) => this._onKeyDown(event));
+  }
+
+  /** @private */
+  _onKeyDown(event) {
+    if (event.keyCode === 27) {
+      this.getRootNode().host._closeMenu(true);
+    }
+  }
+
+  /**
+   * Overriding the observer to not add global "contextmenu" listener.
+   */
+  _openedChanged(opened) {
+    this.$.overlay.opened = opened;
+  }
 }
 
 customElements.define(MessageMenuElement.is, MessageMenuElement);

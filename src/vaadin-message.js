@@ -192,10 +192,12 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   ready() {
     super.ready();
 
-    const menu = this._menu();
+    const button = this._button;
+    const menu = this._menu;
+    menu.listenOn = button;
+
     menu.renderer = function (root) {
       let listBox = root.firstElementChild;
-
       if (listBox) {
         listBox.innerHTML = '';
       } else {
@@ -226,21 +228,82 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   /** @private */
   _onMenuButtonClick(event) {
+    event.preventDefault();
     this._openMenu(event);
   }
 
   /** @private */
   _onMenuButtonKeyDown(event) {
-    // Open menu on RETURN, SPACE or DOWN ARROW
+    event.preventDefault();
+
+    // RETURN, SPACE, DOWN ARROW: open menu & focus first item
     if (event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) {
       this._openMenu(event);
+
+      // UP ARROW: open menu & focus last item
+    } else if (event.keyCode === 38) {
+      this._openMenu(event, { focusLast: true });
     }
   }
 
   /** @private */
-  _openMenu(event) {
-    this._button().setAttribute('aria-expanded', 'true');
-    this._menu().open(event);
+  _openMenu(event, options = {}) {
+    const button = this._button;
+    const menu = this._menu;
+
+    const rect = button.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      button.dispatchEvent(
+        new CustomEvent('openmessagemenu', {
+          detail: {
+            x: this.__isRTL ? rect.right : rect.left,
+            y: rect.bottom
+          }
+        })
+      );
+      button.setAttribute('aria-expanded', 'true');
+    });
+
+    if (options.focusLast) {
+      this.__onceOpened(() => this._focusLastItem());
+    }
+
+    // Only focus an item when opened using keyboard
+    if (event.type !== 'keydown') {
+      this.__onceOpened(() => {
+        menu.$.overlay.$.overlay.focus();
+      });
+    }
+  }
+
+  /** @private */
+  __onceOpened(callback) {
+    const overlay = this._menu.$.overlay;
+    const listener = () => {
+      callback();
+      overlay.removeEventListener('vaadin-overlay-open', listener);
+    };
+    overlay.addEventListener('vaadin-overlay-open', listener);
+  }
+
+  /** @private */
+  _focusLastItem() {
+    const list = this._menu.$.overlay.firstElementChild;
+    const item = list.items[list.items.length - 1];
+    item && item.focus();
+  }
+
+  /** @private */
+  _closeMenu(restoreFocus) {
+    const button = this._button;
+    const menu = this._menu;
+
+    button.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) {
+      button.focus();
+    }
+
+    menu.opened && menu.close();
   }
 }
 
