@@ -12,8 +12,9 @@ import '@vaadin/vaadin-text-field/src/vaadin-text-area.js';
  * `<vaadin-message-input>` is a Web Component for sending messages.
  * It consists of a text area that grows on along with the content, and a send button to send message.
  *
- * The input field can be submitted by pressing enter.
- * Holding shift down while pressing enter gives you a new line.
+ * The message can be sent by one of the following actions:
+ * - by pressing Enter (use Shift + Enter to add a new line)
+ * - by clicking `submit` button.
  *
  * ```html
  * <vaadin-message-input></vaadin-message-input>
