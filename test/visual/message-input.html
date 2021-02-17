@@ -57,7 +57,7 @@
         messageInput.addEventListener('submit', function(e) {
           messageList.items = [...messageList.items, 
             {
-              text: e.detail.text,
+              text: e.detail.value,
               time: 'seconds ago', 
               userName: 'Milla Sting', 
               userAbbr: 'MS',
