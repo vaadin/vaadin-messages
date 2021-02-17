@@ -74,7 +74,12 @@ describe('message-input', () => {
     });
 
     it('should contain filled value in submit event', (done) => {
-      messageInput.addEventListener('submit', (e) => {
+      const spy = sinon.spy();
+      messageInput.addEventListener('submit', spy);
+      textArea.value = 'foo';
+      button.click();
+      const e = spy.firstCall.args[0];
+      expect(e.detail.value).to.be.equal('foo')
         expect(e.detail.value).to.be.equal('foo');
         done();
       });
