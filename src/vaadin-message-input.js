@@ -98,7 +98,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    */
   __submit() {
     if (this.value !== '') {
-      this.dispatchEvent(new CustomEvent('submit', { detail: { text: this.value } }));
+      this.dispatchEvent(new CustomEvent('submit', { detail: { value: this.value } }));
       this.value = '';
     }
     this.shadowRoot.querySelector('vaadin-text-area').focus();
