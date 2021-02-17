@@ -31,7 +31,7 @@ describe('message-input', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
       messageInput.value = 'foo';
-      messageInput._submit();
+      messageInput.__submit();
       expect(spy.calledOnce).to.be.true;
     });
 
