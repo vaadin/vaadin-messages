@@ -63,7 +63,7 @@ describe('message-input', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
       button.click();
-      expect(spy.notCalled).to.be.true;
+      expect(spy.called).to.be.false;
     });
 
     it('should empty input after submit', () => {
