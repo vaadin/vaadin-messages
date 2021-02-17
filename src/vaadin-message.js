@@ -150,6 +150,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           flex-direction: column;
         }
 
+        vaadin-text-area {
+          max-height: 50vh;
+        }
+
         [part='editor-buttons'] {
           display: flex;
         }
@@ -172,7 +176,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           <slot></slot>
         </div>
         <div part="editor" hidden="[[!edit]]">
-          <vaadin-text-area></vaadin-text-area>
+          <vaadin-text-area placeholder="Edit message"></vaadin-text-area>
           <div part="editor-buttons">
             <vaadin-button theme="tertiary">Cancel</vaadin-button>
             <vaadin-button theme="primary contained">Save changes</vaadin-button>
@@ -192,6 +196,15 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   ready() {
     super.ready();
+
+    // Set aria-label to provide an accessible name for the labelless input
+    const textarea = this.shadowRoot.querySelector('vaadin-text-area').inputElement;
+    textarea.setAttribute('aria-label', 'Edit message');
+    textarea.removeAttribute('aria-labelledby');
+
+    // Set initial height to one row
+    textarea.setAttribute('rows', 1);
+    textarea.style.minHeight = '0';
   }
 
   /** @private */
