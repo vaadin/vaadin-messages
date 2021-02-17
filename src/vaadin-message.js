@@ -7,6 +7,8 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
 import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-area.js';
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
  *
@@ -95,6 +97,15 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        */
       userColorIndex: {
         type: Number
+      },
+
+      /**
+       * Reflects whether or not the message is in edit mode (as opposed to read-only mode).
+       * @type {boolean}
+       */
+      edit: {
+        type: Boolean,
+        value: true
       }
     };
   }
@@ -129,6 +140,11 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           flex-direction: row;
           flex-wrap: wrap;
         }
+
+        [part='editor'] {
+          display: flex;
+          flex-direction: column;
+        }
       </style>
       <vaadin-avatar
         part="avatar"
@@ -144,8 +160,13 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           <span part="name">[[userName]]</span>
           <span part="time">[[time]]</span>
         </div>
-        <div part="message">
+        <div part="message" hidden="[[edit]]">
           <slot></slot>
+        </div>
+        <div part="editor" hidden="[[!edit]]">
+          <vaadin-text-area></vaadin-text-area>
+          <vaadin-button theme="tertiary">Cancel</vaadin-button>
+          <vaadin-button theme="primary contained">Save changes</vaadin-button>
         </div>
       </div>
     `;
