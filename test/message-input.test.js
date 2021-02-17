@@ -58,5 +58,35 @@ describe('message-input', () => {
       keyDownOn(textArea.inputElement, 13, ['shift'], 'Enter');
       expect(spy.called).to.be.false;
     });
+
+    it('should not fire a submit event if value is empty', () => {
+      const spy = sinon.spy();
+      messageInput.addEventListener('submit', spy);
+      button.click();
+      expect(spy.notCalled).to.be.true;
+    });
+
+    it('should empty input after submit', () => {
+      messageInput.value = 'foo';
+      expect(messageInput.value).to.be.equal('foo');
+      button.click();
+      expect(messageInput.value).to.be.empty;
+    });
+
+    it('should contain filled value in submit event', (done) => {
+      messageInput.addEventListener('submit', (e) => {
+        expect(e.detail.value).to.be.equal('foo');
+        done();
+      });
+      textArea.value = 'foo';
+      button.click();
+    });
+
+    it('should focus input after submit', () => {
+      const spy = sinon.spy(textArea, 'focus');
+      textArea.value = 'foo';
+      button.click();
+      expect(spy.called).to.be.true;
+    });
   });
 });
