@@ -30,15 +30,15 @@ describe('message-input', () => {
     it('should fire a submit event when calling submitMessage()', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
-      messageInput.text = 'foo';
-      messageInput.submitMessage();
+      messageInput.value = 'foo';
+      messageInput._submit();
       expect(spy.calledOnce).to.be.true;
     });
 
     it('should fire a submit event won button click', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
-      messageInput.text = 'foo';
+      messageInput.value = 'foo';
       button.click();
       expect(spy.calledOnce).to.be.true;
     });

@@ -29,7 +29,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       /**
        * Current content of the text input field
        */
-      text: {
+      value: {
         type: String
       }
     };
@@ -55,8 +55,8 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           margin: 0;
         }
       </style>
-      <vaadin-text-area value="{{text}}" placeholder="Message"></vaadin-text-area>
-      <vaadin-button theme="primary contained" on-click="submitMessage">Send</vaadin-button>
+      <vaadin-text-area value="{{value}}" placeholder="Message"></vaadin-text-area>
+      <vaadin-button theme="primary contained" on-click="_submit">Send</vaadin-button>
     `;
   }
 
@@ -85,7 +85,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         e.stopPropagation();
-        this.submitMessage();
+        this._submit();
       }
     });
   }
@@ -96,10 +96,10 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * In UI, can be triggered by pressing the submit button or pressing enter key when field is focused.
    * It does not submit anything if text is empty.
    */
-  submitMessage() {
-    if (this.text !== '') {
-      this.dispatchEvent(new CustomEvent('submit', { detail: { text: this.text } }));
-      this.text = '';
+  _submit() {
+    if (this.value !== '') {
+      this.dispatchEvent(new CustomEvent('submit', { detail: { text: this.value } }));
+      this.value = '';
     }
     this.shadowRoot.querySelector('vaadin-text-area').focus();
   }
