@@ -105,7 +105,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        */
       edit: {
         type: Boolean,
-        value: true
+        value: true,
+        notify: true,
+        observer: '_editChanged',
+        reflectToAttribute: true
       }
     };
   }
@@ -118,7 +121,8 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           flex-direction: row;
         }
 
-        :host([hidden]) {
+        :host([hidden]),
+        [hidden] {
           display: none !important;
         }
 
@@ -145,6 +149,10 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           display: flex;
           flex-direction: column;
         }
+
+        [part='editor-buttons'] {
+          display: flex;
+        }
       </style>
       <vaadin-avatar
         part="avatar"
@@ -165,15 +173,13 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         </div>
         <div part="editor" hidden="[[!edit]]">
           <vaadin-text-area></vaadin-text-area>
-          <vaadin-button theme="tertiary">Cancel</vaadin-button>
-          <vaadin-button theme="primary contained">Save changes</vaadin-button>
+          <div part="editor-buttons">
+            <vaadin-button theme="tertiary">Cancel</vaadin-button>
+            <vaadin-button theme="primary contained">Save changes</vaadin-button>
+          </div>
         </div>
       </div>
     `;
-  }
-
-  ready() {
-    super.ready();
   }
 
   static get is() {
@@ -182,6 +188,15 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   static get version() {
     return '1.0.0-alpha1';
+  }
+
+  ready() {
+    super.ready();
+  }
+
+  /** @private */
+  _editChanged(edit) {
+    this.edit = edit;
   }
 }
 

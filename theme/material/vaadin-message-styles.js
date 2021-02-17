@@ -2,6 +2,9 @@ import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styl
 import '@vaadin/vaadin-material-styles/color.js';
 import '@vaadin/vaadin-material-styles/typography.js';
 import '@vaadin/vaadin-avatar/theme/material/vaadin-avatar-styles.js';
+import '@vaadin/vaadin-button/theme/material/vaadin-button-styles.js';
+import '@vaadin/vaadin-text-field/theme/material/vaadin-text-area-styles.js';
+import '@vaadin/vaadin-text-field/theme/material/vaadin-text-field-styles.js';
 
 registerStyles(
   'vaadin-message',
@@ -46,6 +49,15 @@ registerStyles(
       color: var(--material-secondary-text-color);
       font-size: var(--material-small-font-size);
       line-height: 1.25rem;
+    }
+
+    [part='editor-buttons'] vaadin-button:first-child {
+      margin-right: 1em;
+    }
+
+    :host([dir='rtl']) [part='editor-buttons'] vaadin-button:first-child {
+      margin-left: 1em;
+      margin-right: 0;
     }
   `,
   { moduleId: 'material-message' }

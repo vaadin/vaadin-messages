@@ -6,8 +6,8 @@ import '@vaadin/vaadin-lumo-styles/style.js';
 import '@vaadin/vaadin-lumo-styles/typography.js';
 import '@vaadin/vaadin-avatar/theme/lumo/vaadin-avatar-styles.js';
 import '@vaadin/vaadin-button/theme/lumo/vaadin-button-styles.js';
-import '@vaadin/vaadin-text-field/theme/lumo/vaadin-text-field-styles.js';
 import '@vaadin/vaadin-text-field/theme/lumo/vaadin-text-area-styles.js';
+import '@vaadin/vaadin-text-field/theme/lumo/vaadin-text-field-styles.js';
 
 registerStyles(
   'vaadin-message',
@@ -21,6 +21,10 @@ registerStyles(
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
+    }
+
+    :host([edit]) {
+      background-color: var(--lumo-contrast-5pct);
     }
 
     vaadin-avatar {
@@ -54,6 +58,23 @@ registerStyles(
     [part='time'] {
       color: var(--lumo-secondary-text-color);
       font-size: var(--lumo-font-size-s);
+    }
+
+    [part='editor'] {
+      margin-top: var(--lumo-space-xs);
+    }
+
+    [part='editor-buttons'] {
+      margin-top: var(--lumo-space-xs);
+    }
+
+    [part='editor-buttons'] vaadin-button:first-child {
+      margin-right: var(--lumo-space-m);
+    }
+
+    :host([dir='rtl']) [part='editor-buttons'] vaadin-button:first-child {
+      margin-left: var(--lumo-space-m);
+      margin-right: 0;
     }
   `,
   { moduleId: 'lumo-message' }
