@@ -1,6 +1,7 @@
 import { expect } from '@esm-bundle/chai';
 import { fixtureSync } from '@open-wc/testing-helpers';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
+import { keyDownOn, keyUpOn, down, up } from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../vaadin-message-list.js';
 
 function nextRender(target) {
@@ -131,6 +132,82 @@ describe('message-list', () => {
       ];
       await nextRender(messageList);
       expect(messageList.scrollTop).to.be.equal(0);
+    });
+  });
+  describe('keyboard navigation', () => {
+    let messageElements;
+    beforeEach(async () => {
+      messageList.items = messages;
+      await nextRender(messageList);
+      messageElements = messageList.shadowRoot.querySelectorAll('vaadin-message');
+    });
+
+    function verifyHasFocus(message) {
+      messageElements.forEach((aMessage) => {
+        if (aMessage == message) {
+          expect(aMessage.hasAttribute('focused')).to.be.true;
+        } else {
+          expect(aMessage.hasAttribute('focused')).to.be.false;
+        }
+      });
+    }
+
+    function verifyNoFocus() {
+      messageElements.forEach((aMessage) => {
+        expect(aMessage.hasAttribute('focused')).to.be.false;
+      });
+    }
+
+    function arrowDown(element) {
+      keyDownOn(element, 40, [], 'ArrowDown');
+      keyUpOn(element, 40, [], 'ArrowDown');
+    }
+
+    function arrowUp(element) {
+      keyDownOn(element, 38, [], 'ArrowUp');
+      keyUpOn(element, 38, [], 'ArrowUp');
+    }
+
+    it('no focus before interaction', () => {
+      verifyNoFocus(messageElements);
+    });
+
+    it('down arrow should select the next message', () => {
+      arrowDown(messageElements[0]);
+      verifyHasFocus(messageElements[1]);
+    });
+
+    it('down arrow on last message should select first message', () => {
+      arrowDown(messageElements[3]);
+      verifyHasFocus(messageElements[0]);
+    });
+
+    it('up arrow should select the next message', () => {
+      arrowUp(messageElements[1]);
+      verifyHasFocus(messageElements[0]);
+    });
+
+    it('up arrow on last message should select first message', () => {
+      arrowUp(messageElements[0]);
+      verifyHasFocus(messageElements[3]);
+    });
+
+    it('click mouse down on message sets messageList to active', () => {
+      down(messageElements[1]);
+      expect(messageList.hasAttribute('active')).to.be.true;
+    });
+
+    it('click mouse down and up removes active from messageList', () => {
+      down(messageElements[1]);
+      up(messageElements[1]);
+      expect(messageList.hasAttribute('active')).to.be.false;
+    });
+
+    it('click message to give it focus', () => {
+      down(messageElements[1]);
+      up(messageElements[1]);
+      // expect(messageList.hasAttribute('focused')).to.be.true;
+      expect(messageElements[1].hasAttribute('focused')).to.be.true;
     });
   });
 });
