@@ -264,7 +264,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.0.0-alpha1';
+    return '2.0.0-alpha1';
   }
 }
 
