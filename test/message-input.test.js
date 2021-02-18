@@ -27,7 +27,6 @@ describe('message-input', () => {
   });
 
   describe('submit functionality', () => {
-
     it('should fire a submit event on button click', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
@@ -66,18 +65,13 @@ describe('message-input', () => {
       expect(messageInput.value).to.be.empty;
     });
 
-    it('should contain filled value in submit event', (done) => {
+    it('should contain filled value in submit event', () => {
       const spy = sinon.spy();
       messageInput.addEventListener('submit', spy);
       textArea.value = 'foo';
       button.click();
       const e = spy.firstCall.args[0];
-      expect(e.detail.value).to.be.equal('foo')
-        expect(e.detail.value).to.be.equal('foo');
-        done();
-      });
-      textArea.value = 'foo';
-      button.click();
+      expect(e.detail.value).to.be.equal('foo');
     });
 
     it('should focus input after submit', () => {
