@@ -21,17 +21,41 @@ registerStyles(
     }
 
     vaadin-avatar {
-      margin-right: var(--lumo-space-m);
-      margin-top: var(--lumo-space-s);
+      margin-right: calc(var(--lumo-space-m) - var(--vaadin-avatar-outline-width));
+      margin-top: calc(var(--lumo-space-s) - var(--vaadin-avatar-outline-width));
     }
 
     :host([dir='rtl']) vaadin-avatar {
-      margin-left: var(--lumo-space-m);
-      margin-right: 0;
+      margin-left: calc(var(--lumo-space-m) - var(--vaadin-avatar-outline-width));
+      margin-right: calc(var(--vaadin-avatar-outline-width) * -1);
+    }
+
+    :host([theme~='system']) vaadin-avatar {
+      --vaadin-avatar-size: var(--lumo-size-xs);
+      --size-diff: calc(
+        (var(--lumo-size-m) - (2 * var(--vaadin-avatar-outline-width)) - var(--vaadin-avatar-size)) / 2
+      );
+
+      border-color: var(--lumo-contrast-10pct);
+      font-size: var(--lumo-font-size-xl);
+      font-style: italic;
+      height: var(--vaadin-avatar-size);
+      margin-left: var(--size-diff);
+      margin-right: calc(var(--size-diff) + var(--lumo-space-m));
+      margin-top: calc(var(--size-diff) + var(--lumo-space-s));
+      width: var(--vaadin-avatar-size);
+    }
+
+    :host([dir='rtl'][theme~='system']) vaadin-avatar {
+      margin-left: calc(var(--size-diff) + var(--lumo-space-m));
+      margin-right: var(--size-diff);
+    }
+
+    [part='header'] {
+      min-height: calc(var(--lumo-font-size-m) * var(--lumo-line-height-m));
     }
 
     [part='name'] {
-      font-weight: 500;
       margin-right: var(--lumo-space-s);
     }
 

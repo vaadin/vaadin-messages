@@ -112,9 +112,14 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
 
         vaadin-avatar {
-          border: none;
+          --vaadin-avatar-outline-width: 0px;
           flex-shrink: 0;
-          margin: 0;
+        }
+
+        :host([theme~='system']) vaadin-avatar {
+          --vaadin-avatar-outline-width: 1px;
+          background-color: transparent;
+          line-height: 1;
         }
 
         [part='content'] {
@@ -124,10 +129,14 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
 
         [part='header'] {
-          align-items: baseline;
+          align-items: center;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
+        }
+
+        [part='name'] {
+          font-weight: 500;
         }
 
         [part='message'] {
