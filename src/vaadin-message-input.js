@@ -51,6 +51,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
        * }
        * ```
        *
+       * @type {!MessageInputI18n}
        * @default {English}
        */
       i18n: {
