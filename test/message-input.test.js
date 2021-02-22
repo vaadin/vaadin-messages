@@ -106,4 +106,16 @@ describe('message-input', () => {
       expect(textArea.inputElement.getAttribute('aria-label')).to.be.equal('Viesti');
     });
   });
+
+  describe('disabled attribute propagation', () => {
+    it('should be propagated to text-area', () => {
+      messageInput.disabled = true;
+      expect(textArea.getAttribute('disabled')).to.exist;
+    });
+
+    it('should be propagated to button', () => {
+      messageInput.disabled = true;
+      expect(button.getAttribute('disabled')).to.exist;
+    });
+  });
 });
