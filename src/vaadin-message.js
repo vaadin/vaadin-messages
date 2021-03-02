@@ -117,6 +117,12 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           margin: 0;
         }
 
+        :host([theme~='system']) vaadin-avatar {
+          --vaadin-avatar-outline-width: 1px;
+          background-color: transparent;
+          line-height: 1;
+        }
+
         [part='content'] {
           display: flex;
           flex-direction: column;
