@@ -7,7 +7,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
-import '@vaadin/vaadin-text-field/src/vaadin-text-area.js';
+import './vaadin-message-input-text-area.js';
 /**
  * `<vaadin-message-input>` is a Web Component for sending messages.
  * It consists of a text area that grows on along with the content, and a send button to send message.
@@ -86,17 +86,16 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           overflow: hidden;
           flex-shrink: 0;
         }
-        vaadin-text-area {
-          align-self: stretch;
-          flex-grow: 1;
-          padding: 0;
-        }
         vaadin-button {
           flex-shrink: 0;
           margin: 0;
         }
       </style>
-      <vaadin-text-area disabled="[[disabled]]" value="{{value}}" placeholder="[[i18n.message]]"></vaadin-text-area>
+      <vaadin-message-input-text-area
+        disabled="[[disabled]]"
+        value="{{value}}"
+        placeholder="[[i18n.message]]"
+      ></vaadin-message-input-text-area>
       <vaadin-button disabled="[[disabled]]" theme="primary contained" on-click="__submit">[[i18n.send]]</vaadin-button>
     `;
   }
@@ -140,7 +139,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.dispatchEvent(new CustomEvent('submit', { detail: { value: this.value } }));
       this.value = '';
     }
-    this.shadowRoot.querySelector('vaadin-text-area').focus();
+    this.shadowRoot.querySelector('vaadin-message-input-text-area').focus();
   }
 
   __i18nChanged(i18n) {
@@ -149,10 +148,10 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   /**
-   * Gets the native `<textarea>` inside the `<vaadin-text-area>`.
+   * Gets the native `<textarea>` inside the `<vaadin-message-input-text-area>`.
    */
   get __inputElement() {
-    return this.shadowRoot.querySelector('vaadin-text-area').inputElement;
+    return this.shadowRoot.querySelector('vaadin-message-input-text-area').inputElement;
   }
 }
 
