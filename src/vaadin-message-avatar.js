@@ -22,12 +22,12 @@ registerStyles(
  *
  * ### Styling
  *
- * See [`<vaadin-text-field>` documentation](https://github.com/vaadin/vaadin-avatar/blob/master/src/vaadin-avatar.js)
+ * See [`<vaadin-avatar>` documentation](https://github.com/vaadin/vaadin-avatar/blob/master/src/vaadin-avatar.js)
  * for `<vaadin-message-avatar>` parts and available slots (prefix, suffix etc.)
  *
  * See [ThemableMixin – how to apply styles for shadow parts](https://github.com/vaadin/vaadin-themable-mixin#readme)
  *
- * @extends TextFieldElement
+ * @extends AvatarElement
  */
 class MessageAvatarElement extends AvatarElement {
   static get is() {
