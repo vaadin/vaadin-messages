@@ -34,6 +34,35 @@ class MessageInputTextAreaElement extends TextAreaElement {
   static get is() {
     return 'vaadin-message-input-text-area';
   }
+
+  static get version() {
+    return '2.0.0-alpha1';
+  }
+
+  ready() {
+    super.ready();
+
+    const textarea = this.inputElement;
+    textarea.removeAttribute('aria-labelledby');
+
+    // Set initial height to one row
+    textarea.setAttribute('rows', 1);
+    textarea.style.minHeight = '0';
+
+    // Add enter handling for text area.
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.dispatchEvent(new CustomEvent('enter'));
+      }
+    });
+  }
+
+  _setAriaLabel(message) {
+    // Set aria-label to provide an accessible name for the labelless input
+    this.inputElement.setAttribute('aria-label', message);
+  }
 }
 
 customElements.define(MessageInputTextAreaElement.is, MessageInputTextAreaElement);

@@ -91,6 +91,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         disabled="[[disabled]]"
         value="{{value}}"
         placeholder="[[i18n.message]]"
+        on-enter="__submit"
       ></vaadin-message-input-text-area>
       <vaadin-message-input-button disabled="[[disabled]]" theme="primary contained" on-click="__submit"
         >[[i18n.send]]</vaadin-message-input-button
@@ -104,26 +105,6 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   static get version() {
     return '2.0.0-alpha1';
-  }
-
-  ready() {
-    super.ready();
-
-    const textarea = this.__inputElement;
-    textarea.removeAttribute('aria-labelledby');
-
-    // Set initial height to one row
-    textarea.setAttribute('rows', 1);
-    textarea.style.minHeight = '0';
-
-    // Add enter handling for text area.
-    textarea.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.__submit();
-      }
-    });
   }
 
   /**
@@ -141,15 +122,7 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   __i18nChanged(i18n) {
-    // Set aria-label to provide an accessible name for the labelless input
-    this.__inputElement.setAttribute('aria-label', i18n.message);
-  }
-
-  /**
-   * Gets the native `<textarea>` inside the `<vaadin-message-input-text-area>`.
-   */
-  get __inputElement() {
-    return this.shadowRoot.querySelector('vaadin-message-input-text-area').inputElement;
+    this.shadowRoot.querySelector('vaadin-message-input-text-area')._setAriaLabel(i18n.message);
   }
 }
 

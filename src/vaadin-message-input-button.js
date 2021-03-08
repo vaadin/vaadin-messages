@@ -33,6 +33,10 @@ class MessageInputButtonElement extends ButtonElement {
   static get is() {
     return 'vaadin-message-input-button';
   }
+
+  static get version() {
+    return '2.0.0-alpha1';
+  }
 }
 
 customElements.define(MessageInputButtonElement.is, MessageInputButtonElement);
