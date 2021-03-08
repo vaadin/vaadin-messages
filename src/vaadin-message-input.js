@@ -6,8 +6,8 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
 import './vaadin-message-input-text-area.js';
+import './vaadin-message-input-button.js';
 /**
  * `<vaadin-message-input>` is a Web Component for sending messages.
  * It consists of a text area that grows on along with the content, and a send button to send message.
@@ -86,17 +86,15 @@ class MessageInputElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           overflow: hidden;
           flex-shrink: 0;
         }
-        vaadin-button {
-          flex-shrink: 0;
-          margin: 0;
-        }
       </style>
       <vaadin-message-input-text-area
         disabled="[[disabled]]"
         value="{{value}}"
         placeholder="[[i18n.message]]"
       ></vaadin-message-input-text-area>
-      <vaadin-button disabled="[[disabled]]" theme="primary contained" on-click="__submit">[[i18n.send]]</vaadin-button>
+      <vaadin-message-input-button disabled="[[disabled]]" theme="primary contained" on-click="__submit"
+        >[[i18n.send]]</vaadin-message-input-button
+      >
     `;
   }
 

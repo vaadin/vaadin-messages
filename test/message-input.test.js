@@ -10,7 +10,7 @@ describe('message-input', () => {
   beforeEach(() => {
     messageInput = fixtureSync('<vaadin-message-input></vaadin-message-input>');
     textArea = messageInput.shadowRoot.querySelector('vaadin-message-input-text-area');
-    button = messageInput.shadowRoot.querySelector('vaadin-button');
+    button = messageInput.shadowRoot.querySelector('vaadin-message-input-button');
   });
 
   it('should have a valid version number', () => {
