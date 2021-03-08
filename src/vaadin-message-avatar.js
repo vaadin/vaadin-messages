@@ -10,7 +10,7 @@ registerStyles(
   'vaadin-message-avatar',
   css`
     :host {
-      --vaadin-avatar-outline-width: 0px;
+      --vaadin-avatar-outline-width: 0;
       flex-shrink: 0;
     }
   `,
