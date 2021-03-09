@@ -144,10 +144,6 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     const target = event.composedPath()[0];
     let currentIndex = this._messages.indexOf(target);
 
-    if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
-      return;
-    }
-
     switch (event.key) {
       case 'ArrowUp':
         currentIndex--;
@@ -162,7 +158,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         currentIndex = this._messages.length - 1;
         break;
       default:
-      // nothing to do
+        return; // nothing to do
     }
     if (currentIndex < 0) {
       currentIndex = this._messages.length - 1;
