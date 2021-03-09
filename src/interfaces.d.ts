@@ -4,10 +4,10 @@ export interface MessageInputI18n {
 }
 
 export interface MessageListItem {
-  text: string;
-  time: string;
-  userName: string;
-  userAbbr: string;
-  userImg: string;
-  userColorIndex: number;
+  text?: string;
+  time?: string;
+  userName?: string;
+  userAbbr?: string;
+  userImg?: string;
+  userColorIndex?: number;
 }
