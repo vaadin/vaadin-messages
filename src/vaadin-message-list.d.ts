@@ -27,12 +27,24 @@ import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.
  * ----------|----------------
  *
  * See [ThemableMixin – how to apply styles for shadow parts](https://github.com/vaadin/vaadin-themable-mixin/wiki)
- *
- * @extends HTMLElement
- * @mixes ThemableMixin
- * @mixes ElementMixin
  */
-declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)) {}
+declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)) {
+  /**
+   * A user object that can be used to render avatar and name.
+   * The user object can consist of the folowing properties:
+   * ```js
+   * Array<{
+   *   text: string,
+   *   time: string,
+   *   userName: string,
+   *   userAbbr: string,
+   *   userImg: string,
+   *   userColorIndex: number
+   * }>
+   * ```
+   */
+  items: any[] | null | undefined;
+}
 
 declare global {
   interface HTMLElementTagNameMap {

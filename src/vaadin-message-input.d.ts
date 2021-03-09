@@ -1,6 +1,7 @@
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
+
 import { MessageInputI18n } from './interfaces';
 
 /**
@@ -14,14 +15,14 @@ import { MessageInputI18n } from './interfaces';
  * ```html
  * <vaadin-message-input></vaadin-message-input>
  * ```
- *
- * @extends HTMLElement
- * @mixes ThemableMixin
- * @mixes ElementMixin
  */
 declare class MessageInputElement extends ThemableMixin(ElementMixin(HTMLElement)) {
   /**
-   *
+   * Current content of the text input field
+   */
+  value: string | null | undefined;
+
+  /**
    * The object used to localize this component.
    * For changing the default localization, change the entire
    * `i18n` object.
@@ -39,6 +40,11 @@ declare class MessageInputElement extends ThemableMixin(ElementMixin(HTMLElement
    * ```
    */
   i18n: MessageInputI18n;
+
+  /**
+   * Set to true to disable this element.
+   */
+  disabled: boolean;
 }
 
 declare global {
