@@ -2,6 +2,8 @@ import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mix
 
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
 
+import { MessageListItem } from './interfaces';
+
 /**
  * `<vaadin-message-list>` is a Web Component for showing an ordered list of messages. The messages are rendered as <vaadin-message>
  *
@@ -42,8 +44,10 @@ declare class MessageListElement extends ThemableMixin(ElementMixin(HTMLElement)
    *   userColorIndex: number
    * }>
    * ```
+   *
+   * @type {!Array<!MessageListItem>}
    */
-  items: any[] | null | undefined;
+  items: MessageListItem[] | null | undefined;
 }
 
 declare global {
