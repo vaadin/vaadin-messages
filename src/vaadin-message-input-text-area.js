@@ -70,7 +70,11 @@ class MessageInputTextAreaElement extends TextAreaElement {
 
   __ariaLabelChanged(ariaLabel) {
     // Set aria-label to provide an accessible name for the labelless input
-    this.inputElement.setAttribute('aria-label', ariaLabel);
+    if (ariaLabel) {
+      this.inputElement.setAttribute('aria-label', ariaLabel);
+    } else {
+      this.inputElement.removeAttribute('aria-label');
+    }
   }
 }
 
