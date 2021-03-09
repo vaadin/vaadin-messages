@@ -1,7 +1,7 @@
 import { expect } from '@esm-bundle/chai';
 import { fixtureSync } from '@open-wc/testing-helpers';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
-import { keyDownOn, keyUpOn, downAndUp, down, up, click } from '@polymer/iron-test-helpers/mock-interactions.js';
+import { keyDownOn, keyUpOn } from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../vaadin-message-list.js';
 
 function nextRender(target) {
@@ -9,6 +9,22 @@ function nextRender(target) {
     afterNextRender(target, () => {
       resolve();
     });
+  });
+}
+
+function verifyHasFocus(messageElements, message) {
+  messageElements.forEach((aMessage) => {
+    if (aMessage == message) {
+      expect(aMessage.hasAttribute('focused')).to.be.true;
+    } else {
+      expect(aMessage.hasAttribute('focused')).to.be.false;
+    }
+  });
+}
+
+function verifyNoFocus(messageElements) {
+  messageElements.forEach((aMessage) => {
+    expect(aMessage.hasAttribute('focused')).to.be.false;
   });
 }
 
@@ -137,6 +153,41 @@ describe('message-list', () => {
       await nextRender(messageList);
       expect(messageList.scrollTop).to.be.equal(0);
     });
+
+    it('message list should set tab index on first item if new item list is shorter, and it does not have a item index corresponding to the previous item with tab index 0', async () => {
+      const thirdMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[2];
+
+      // click on third item to give it tabindex=0
+      thirdMessage.dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
+      thirdMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
+      thirdMessage.dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
+
+      // set message list to shorter than three items, so that tabIndex=0 can't be maintained on third item
+      messageList.items = [
+        {
+          text: 'This is a new list',
+          time: '2:35 PM',
+          user: {
+            name: 'Steve Mops',
+            abbr: 'SM',
+            colorIndex: 2
+          }
+        },
+        {
+          text: 'With two items',
+          time: '2:35 PM',
+          user: {
+            name: 'Steve Mops',
+            abbr: 'SM',
+            colorIndex: 2
+          }
+        }
+      ];
+      await nextRender(messageList);
+      const firstMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[0];
+      // Verify that the first item got the new tabIndex=0.
+      expect(firstMessage.tabIndex).to.be.equal(0);
+    });
   });
 
   describe('mouse navigation', () => {
@@ -148,15 +199,13 @@ describe('message-list', () => {
     });
 
     it('click message to give it focus', () => {
-      downAndUp(messageElements[1]);
-      down(messageElements[1]);
-      up(messageElements[1]);
-      click(messageElements[1]);
-      messageElements.forEach((aMessage) => {
-        console.log(aMessage.hasAttribute('focused'));
-      });
-      // TODO: None of the above mouse interaction events work for some reason. I don't know why.
-      //expect(messageElements[1].hasAttribute('focused')).to.be.true;
+      messageElements[1].dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
+
+      verifyHasFocus(messageElements, messageElements[1]);
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
+      expect(messageElements[1].tabIndex).to.be.equal(0);
     });
   });
 
@@ -167,22 +216,6 @@ describe('message-list', () => {
       await nextRender(messageList);
       messageElements = messageList.shadowRoot.querySelectorAll('vaadin-message');
     });
-
-    function verifyHasFocus(message) {
-      messageElements.forEach((aMessage) => {
-        if (aMessage == message) {
-          expect(aMessage.hasAttribute('focused')).to.be.true;
-        } else {
-          expect(aMessage.hasAttribute('focused')).to.be.false;
-        }
-      });
-    }
-
-    function verifyNoFocus() {
-      messageElements.forEach((aMessage) => {
-        expect(aMessage.hasAttribute('focused')).to.be.false;
-      });
-    }
 
     function arrowDown(element) {
       keyDownOn(element, 40, [], 'ArrowDown');
@@ -210,44 +243,51 @@ describe('message-list', () => {
 
     it('down arrow should select the next message', () => {
       arrowDown(messageElements[0]);
-      verifyHasFocus(messageElements[1]);
+      verifyHasFocus(messageElements, messageElements[1]);
     });
 
     it('down arrow on last message should select first message', () => {
       arrowDown(messageElements[3]);
-      verifyHasFocus(messageElements[0]);
+      verifyHasFocus(messageElements, messageElements[0]);
     });
 
     it('up arrow should select the next message', () => {
       arrowUp(messageElements[1]);
-      verifyHasFocus(messageElements[0]);
+      verifyHasFocus(messageElements, messageElements[0]);
     });
 
     it('up arrow on last message should select first message', () => {
       arrowUp(messageElements[0]);
-      verifyHasFocus(messageElements[3]);
+      verifyHasFocus(messageElements, messageElements[3]);
     });
 
     it('home on any message should select first message', () => {
       home(messageElements[2]);
-      verifyHasFocus(messageElements[0]);
+      verifyHasFocus(messageElements, messageElements[0]);
     });
 
     it('end on any message should select last message', () => {
       end(messageElements[1]);
-      verifyHasFocus(messageElements[3]);
+      verifyHasFocus(messageElements, messageElements[3]);
     });
 
     it('end on any message should select last message', () => {
       end(messageElements[1]);
-      verifyHasFocus(messageElements[3]);
+      verifyHasFocus(messageElements, messageElements[3]);
     });
 
     it('holding down control while pressing keys should not do anything', () => {
       arrowDown(messageElements[1]);
       keyDownOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
       keyUpOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
-      verifyHasFocus(messageElements[2]);
+      verifyHasFocus(messageElements, messageElements[2]);
+    });
+
+    it('random unhandled key press should not affect focus', () => {
+      arrowDown(messageElements[0]);
+      keyDownOn(messageElements[1], 75, [], 'KeyK');
+      keyUpOn(messageElements[1], 75, [], 'KeyK');
+      verifyHasFocus(messageElements, messageElements[1]);
     });
   });
 });

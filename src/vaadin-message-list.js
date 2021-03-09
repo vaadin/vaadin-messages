@@ -113,15 +113,14 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _itemsChanged(newVal, oldVal) {
     const focusedElement = this._getIndexOfFocusableElement();
-    if (
-      newVal &&
-      newVal.length &&
-      (!oldVal || newVal.length > oldVal.length) && // there are new items
-      this.scrollHeight < this.clientHeight + this.scrollTop + 50 // bottom of list
-    ) {
+    if (newVal && newVal.length) {
+      const moreItems = !oldVal || newVal.length > oldVal.length;
+      const closeToBottom = this.scrollHeight < this.clientHeight + this.scrollTop + 50;
       microTask.run(() => {
         this._setTabIndexesByIndex(focusedElement);
-        this._scrollToLastMessage();
+        if (moreItems && closeToBottom) {
+          this._scrollToLastMessage();
+        }
       });
     }
   }
@@ -141,61 +140,38 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       return;
     }
 
-    // only check keyboard events on messages
+    // get index of the item that was focused when event happened
     const target = event.composedPath()[0];
-    const currentIdx = this._messages.indexOf(target);
-    if (currentIdx === -1) {
+    let currentIndex = this._messages.indexOf(target);
+
+    if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
       return;
     }
 
-    let idx, increment;
-
     switch (event.key) {
       case 'ArrowUp':
-        increment = -1;
-        idx = currentIdx - 1;
+        currentIndex--;
         break;
       case 'ArrowDown':
-        increment = 1;
-        idx = currentIdx + 1;
+        currentIndex++;
         break;
       case 'Home':
-        increment = 1;
-        idx = 0;
+        currentIndex = 0;
         break;
       case 'End':
-        increment = -1;
-        idx = this._messages.length - 1;
+        currentIndex = this._messages.length - 1;
         break;
       default:
       // nothing to do
     }
-
-    idx = this._getAvailableIndex(idx, increment);
-    if (idx >= 0) {
-      this._focus(idx);
-      event.preventDefault();
+    if (currentIndex < 0) {
+      currentIndex = this._messages.length - 1;
     }
-  }
-
-  /**
-   * @param {number} idx
-   * @param {number} increment
-   * @return {number}
-   * @protected
-   */
-  _getAvailableIndex(idx, increment) {
-    const totalItems = this.items.length;
-    for (let i = 0; typeof idx == 'number' && i < totalItems; i++, idx += increment || 1) {
-      if (idx < 0) {
-        idx = totalItems - 1;
-      } else if (idx >= totalItems) {
-        idx = 0;
-      }
-
-      return idx;
+    if (currentIndex > this._messages.length - 1) {
+      currentIndex = 0;
     }
-    return -1;
+    this._focus(currentIndex);
+    event.preventDefault();
   }
 
   /**
@@ -214,9 +190,8 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    * @param {number} idx
    * @protected
    */
-  _setTabIndexesByIndex(idx) {
-    idx = this._getAvailableIndex(idx, 1);
-    const message = this._messages[idx] || this._messages[0];
+  _setTabIndexesByIndex(index) {
+    const message = this._messages[index] || this._messages[0];
     this._setTabIndexesByMessage(message);
   }
 
