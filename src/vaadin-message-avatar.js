@@ -10,8 +10,7 @@ registerStyles(
   'vaadin-message-avatar',
   css`
     :host {
-      --vaadin-avatar-outline-width: 0px;
-      /* stylelint-disable-line length-zero-no-unit */
+      --vaadin-avatar-outline-width: 0px; /* stylelint-disable-line length-zero-no-unit */
       flex-shrink: 0;
     }
   `,
