@@ -87,6 +87,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             user-img="[[item.userImg]]"
             user-color-index="[[item.userColorIndex]]"
             role="listitem"
+            on-messagefocus="_handleFocusEvent"
             >[[item.text]]</vaadin-message
           >
         </template>
@@ -101,49 +102,8 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     this.setAttribute('aria-relevant', 'additions');
     this.setAttribute('role', 'log');
 
-    // Make vaadin-message-list focusable using tab key
-    this.setAttribute('tabindex', '0');
-    this.addEventListener('focus', () => this._setFocused(true), true);
-    this.addEventListener('blur', () => this._setFocused(false), true);
-    this.addEventListener('mousedown', () => {
-      this._setActive((this._mousedown = true));
-      const mouseUpListener = () => {
-        this._setActive((this._mousedown = false));
-        document.removeEventListener('mouseup', mouseUpListener);
-      };
-      document.addEventListener('mouseup', mouseUpListener);
-    });
-
     // Keyboard navi
     this.addEventListener('keydown', (e) => this._onKeydown(e));
-  }
-
-  /**
-   * @param {boolean} focused
-   * @protected
-   */
-  _setFocused(focused) {
-    if (focused) {
-      this.setAttribute('focused', '');
-      if (!this._mousedown) {
-        this.setAttribute('focus-ring', '');
-      }
-    } else {
-      this.removeAttribute('focused');
-      this.removeAttribute('focus-ring');
-    }
-  }
-
-  /**
-   * @param {boolean} active
-   * @protected
-   */
-  _setActive(active) {
-    if (active) {
-      this.setAttribute('active', '');
-    } else {
-      this.removeAttribute('active');
-    }
   }
 
   /** @protected */
@@ -152,6 +112,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _itemsChanged(newVal, oldVal) {
+    const focusedElement = this._getIndexOfFocusableElement();
     if (
       newVal &&
       newVal.length &&
@@ -159,8 +120,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.scrollHeight < this.clientHeight + this.scrollTop + 50 // bottom of list
     ) {
       microTask.run(() => {
-        // TODO: do not reset focus
-        this._setFocusable(0);
+        this._setTabIndexesByIndex(focusedElement);
         this._scrollToLastMessage();
       });
     }
@@ -184,10 +144,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     // only check keyboard events on messages
     const target = event.composedPath()[0];
     const currentIdx = this._messages.indexOf(target);
-
     if (currentIdx === -1) {
-      // Remove focus ring
-      this._setFocused(false);
       return;
     }
 
@@ -247,18 +204,29 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
    */
   _focus(idx) {
     const target = this._messages[idx];
-    this._setFocusable(idx);
     target.focus();
   }
 
+  _handleFocusEvent(e) {
+    this._setTabIndexesByMessage(e.detail.message);
+  }
   /**
    * @param {number} idx
    * @protected
    */
-  _setFocusable(idx) {
+  _setTabIndexesByIndex(idx) {
     idx = this._getAvailableIndex(idx, 1);
-    const target = this._messages[idx] || this._messages[0];
-    this._messages.forEach((e) => (e.tabIndex = e === target ? 0 : -1));
+    const message = this._messages[idx] || this._messages[0];
+    this._setTabIndexesByMessage(message);
+  }
+
+  _setTabIndexesByMessage(message) {
+    this._messages.forEach((e) => (e.tabIndex = e === message ? 0 : -1));
+  }
+
+  _getIndexOfFocusableElement() {
+    const index = this._messages.findIndex((e) => e.tabIndex == 0);
+    return index != -1 ? index : 0;
   }
 
   static get is() {

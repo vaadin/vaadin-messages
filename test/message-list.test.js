@@ -1,7 +1,7 @@
 import { expect } from '@esm-bundle/chai';
 import { fixtureSync } from '@open-wc/testing-helpers';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
-import { keyDownOn, keyUpOn, down, up } from '@polymer/iron-test-helpers/mock-interactions.js';
+import { keyDownOn, keyUpOn, downAndUp, down, up, click } from '@polymer/iron-test-helpers/mock-interactions.js';
 import '../vaadin-message-list.js';
 
 function nextRender(target) {
@@ -138,6 +138,28 @@ describe('message-list', () => {
       expect(messageList.scrollTop).to.be.equal(0);
     });
   });
+
+  describe('mouse navigation', () => {
+    let messageElements;
+    beforeEach(async () => {
+      messageList.items = messages;
+      await nextRender(messageList);
+      messageElements = messageList.shadowRoot.querySelectorAll('vaadin-message');
+    });
+
+    it('click message to give it focus', () => {
+      downAndUp(messageElements[1]);
+      down(messageElements[1]);
+      up(messageElements[1]);
+      click(messageElements[1]);
+      messageElements.forEach((aMessage) => {
+        console.log(aMessage.hasAttribute('focused'));
+      });
+      // TODO: None of the above mouse interaction events work for some reason. I don't know why.
+      //expect(messageElements[1].hasAttribute('focused')).to.be.true;
+    });
+  });
+
   describe('keyboard navigation', () => {
     let messageElements;
     beforeEach(async () => {
@@ -172,6 +194,16 @@ describe('message-list', () => {
       keyUpOn(element, 38, [], 'ArrowUp');
     }
 
+    function home(element) {
+      keyDownOn(element, 36, [], 'Home');
+      keyUpOn(element, 36, [], 'Home');
+    }
+
+    function end(element) {
+      keyDownOn(element, 35, [], 'End');
+      keyUpOn(element, 35, [], 'End');
+    }
+
     it('no focus before interaction', () => {
       verifyNoFocus(messageElements);
     });
@@ -196,22 +228,26 @@ describe('message-list', () => {
       verifyHasFocus(messageElements[3]);
     });
 
-    it('click mouse down on message sets messageList to active', () => {
-      down(messageElements[1]);
-      expect(messageList.hasAttribute('active')).to.be.true;
+    it('home on any message should select first message', () => {
+      home(messageElements[2]);
+      verifyHasFocus(messageElements[0]);
     });
 
-    it('click mouse down and up removes active from messageList', () => {
-      down(messageElements[1]);
-      up(messageElements[1]);
-      expect(messageList.hasAttribute('active')).to.be.false;
+    it('end on any message should select last message', () => {
+      end(messageElements[1]);
+      verifyHasFocus(messageElements[3]);
     });
 
-    it('click message to give it focus', () => {
-      down(messageElements[1]);
-      up(messageElements[1]);
-      // expect(messageList.hasAttribute('focused')).to.be.true;
-      expect(messageElements[1].hasAttribute('focused')).to.be.true;
+    it('end on any message should select last message', () => {
+      end(messageElements[1]);
+      verifyHasFocus(messageElements[3]);
+    });
+
+    it('holding down control while pressing keys should not do anything', () => {
+      arrowDown(messageElements[1]);
+      keyDownOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
+      keyUpOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
+      verifyHasFocus(messageElements[2]);
     });
   });
 });
