@@ -39,6 +39,15 @@ class MessageInputTextAreaElement extends TextAreaElement {
     return '2.0.0-alpha1';
   }
 
+  static get properties() {
+    return {
+      ariaLabel: {
+        type: String,
+        observer: '__ariaLabelChanged'
+      }
+    };
+  }
+
   ready() {
     super.ready();
 
@@ -59,9 +68,9 @@ class MessageInputTextAreaElement extends TextAreaElement {
     });
   }
 
-  _setAriaLabel(message) {
+  __ariaLabelChanged(ariaLabel) {
     // Set aria-label to provide an accessible name for the labelless input
-    this.inputElement.setAttribute('aria-label', message);
+    this.inputElement.setAttribute('aria-label', ariaLabel);
   }
 }
 
