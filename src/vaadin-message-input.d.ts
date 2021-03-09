@@ -2,7 +2,7 @@ import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mix
 
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
 
-import { MessageInputI18n } from './interfaces';
+import { MessageInputEventMap, MessageInputI18n } from './interfaces';
 
 /**
  * `<vaadin-message-input>` is a Web Component for sending messages.
@@ -45,6 +45,18 @@ declare class MessageInputElement extends ThemableMixin(ElementMixin(HTMLElement
    * Set to true to disable this element.
    */
   disabled: boolean;
+
+  addEventListener<K extends keyof MessageInputEventMap>(
+    type: K,
+    listener: (this: MessageInputElement, ev: MessageInputEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions
+  ): void;
+
+  removeEventListener<K extends keyof MessageInputEventMap>(
+    type: K,
+    listener: (this: MessageInputElement, ev: MessageInputEventMap[K]) => void,
+    options?: boolean | EventListenerOptions
+  ): void;
 }
 
 declare global {
