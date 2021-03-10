@@ -174,7 +174,7 @@ describe('message-list', () => {
       expect(firstMessage.tabIndex).to.be.equal(0);
     });
 
-        it('should preserve index of message with tabindex=0 when list grows', async () => {
+    it('should preserve index of message with tabindex=0 when list grows', async () => {
       const secondMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[1];
       secondMessage.dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
