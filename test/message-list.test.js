@@ -247,7 +247,7 @@ describe('message-list', () => {
       expect(messageElements[0].hasAttribute('focused')).to.be.true;
     });
 
-    it('up arrow on last message should select first message', () => {
+    it('up arrow on first message should select last message', () => {
       arrowUp(messageElements[0]);
       expect(messageElements[0].hasAttribute('focused')).to.be.false;
       expect(messageElements[3].hasAttribute('focused')).to.be.true;
