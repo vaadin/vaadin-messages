@@ -189,8 +189,15 @@ describe('message-list', () => {
       messageElements[1].dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
 
       expect(messageElements[1].hasAttribute('focused')).to.be.true;
-      expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
       expect(messageElements[1].tabIndex).to.be.equal(0);
+    });
+
+    it('click message should not add focus ring', () => {
+      messageElements[1].dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
+
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
     });
   });
 
@@ -263,6 +270,12 @@ describe('message-list', () => {
       end(messageElements[1]);
       expect(messageElements[1].hasAttribute('focused')).to.be.false;
       expect(messageElements[3].hasAttribute('focused')).to.be.true;
+    });
+
+    it('keyboard navigation should add focus-ring', () => {
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
+      arrowDown(messageElements[0]);
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.true;
     });
 
     it('holding down control while pressing keys should not do anything', () => {
