@@ -17,6 +17,21 @@ registerStyles(
       -webkit-text-size-adjust: 100%;
     }
 
+    :host(:hover:not([disabled])) {
+      background-color: var(--material-secondary-background-color);
+    }
+
+    :host([focused]:not([disabled])) {
+      background-color: var(--material-divider-color);
+    }
+
+    @media (pointer: coarse) {
+      :host(:hover:not([disabled])),
+      :host([focused]:not([disabled])) {
+        background-color: transparent;
+      }
+    }
+
     [part='header'] {
       min-height: calc(var(--material-body-font-size) * 1.5);
     }
