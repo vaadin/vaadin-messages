@@ -241,7 +241,7 @@ describe('message-list', () => {
       expect(messageElements[0].hasAttribute('focused')).to.be.true;
     });
 
-    it('up arrow should select the next message', () => {
+    it('up arrow should select the previous message', () => {
       arrowUp(messageElements[1]);
       expect(messageElements[1].hasAttribute('focused')).to.be.false;
       expect(messageElements[0].hasAttribute('focused')).to.be.true;
