@@ -202,7 +202,7 @@ describe('message-list', () => {
 
     it('should preserve index of message with tabindex=0 when list is made shorter, but still have enough messages to preserve it', async () => {
       const secondMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[1];
-      // click on third item to give it tabindex=0
+      // click on second item to give it tabindex=0
       secondMessage.dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
