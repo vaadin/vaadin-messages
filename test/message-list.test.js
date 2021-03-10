@@ -360,6 +360,15 @@ describe('message-list', () => {
       expect(messageElements[1].hasAttribute('focus-ring')).to.be.true;
     });
 
+    it('should remove focus-ring and focused when component is blurred', () => {
+      arrowDown(messageElements[0]);
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.true;
+      expect(messageElements[1].hasAttribute('focused')).to.be.true;
+      messageElements[1].dispatchEvent(new CustomEvent('blur', { composed: true, bubbles: true }));
+      expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
+      expect(messageElements[1].hasAttribute('focused')).to.be.false;
+    });
+
     it('holding down control while pressing keys should not do anything', () => {
       arrowDown(messageElements[1]);
       keyDownOn(messageElements[2], 40, ['ctrl'], 'ArrowDown');
