@@ -199,6 +199,17 @@ describe('message-list', () => {
 
       expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
     });
+
+    it('click message moves tabindex=0 to the newly selected item', () => {
+      messageElements[1].dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
+      messageElements[1].dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
+      messageElements.forEach((aMessage) => {
+        aMessage === messageElements[1]
+          ? expect(aMessage.tabIndex).to.be.equal(0)
+          : expect(aMessage.tabIndex).to.be.equal(-1);
+      });
+    });
   });
 
   describe('keyboard navigation', () => {
@@ -246,6 +257,15 @@ describe('message-list', () => {
       arrowDown(messageElements[3]);
       expect(messageElements[3].hasAttribute('focused')).to.be.false;
       expect(messageElements[0].hasAttribute('focused')).to.be.true;
+    });
+
+    it('down arrow moves tabindex=0 to the newly selected item', () => {
+      arrowDown(messageElements[0]);
+      messageElements.forEach((aMessage) => {
+        aMessage === messageElements[1]
+          ? expect(aMessage.tabIndex).to.be.equal(0)
+          : expect(aMessage.tabIndex).to.be.equal(-1);
+      });
     });
 
     it('up arrow should select the previous message', () => {
