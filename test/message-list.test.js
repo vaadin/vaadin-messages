@@ -207,7 +207,7 @@ describe('message-list', () => {
       secondMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
 
-      // set message list to two items items
+      // set message list to two items
       messageList.items = [
         {
           text: 'This is a new list',
