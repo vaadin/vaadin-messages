@@ -112,12 +112,12 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _itemsChanged(newVal, oldVal) {
-    const focusedElement = this._getIndexOfFocusableElement();
+    const focusedIndex = this._getIndexOfFocusableElement();
     if (newVal && newVal.length) {
       const moreItems = !oldVal || newVal.length > oldVal.length;
       const closeToBottom = this.scrollHeight < this.clientHeight + this.scrollTop + 50;
       microTask.run(() => {
-        this._setTabIndexesByIndex(focusedElement);
+        this._setTabIndexesByIndex(focusedIndex);
         if (moreItems && closeToBottom) {
           this._scrollToLastMessage();
         }
