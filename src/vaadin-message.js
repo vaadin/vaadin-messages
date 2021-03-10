@@ -186,7 +186,6 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
       if (!this._mousedown) {
         this.setAttribute('focus-ring', '');
       }
-      this.dispatchEvent(new CustomEvent('messagefocus', { detail: { message: this } }));
     } else {
       this.removeAttribute('focused');
       this.removeAttribute('focus-ring');

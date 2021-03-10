@@ -87,7 +87,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
             user-img="[[item.userImg]]"
             user-color-index="[[item.userColorIndex]]"
             role="listitem"
-            on-messagefocus="_handleFocusEvent"
+            on-focus="_handleFocusEvent"
             >[[item.text]]</vaadin-message
           >
         </template>
@@ -180,7 +180,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _handleFocusEvent(e) {
-    this._setTabIndexesByMessage(e.detail.message);
+    this._setTabIndexesByMessage(e.composedPath()[0]);
   }
   /**
    * @param {number} idx
