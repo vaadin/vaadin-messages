@@ -173,7 +173,8 @@ describe('message-list', () => {
       // Verify that the first item got the new tabIndex=0.
       expect(firstMessage.tabIndex).to.be.equal(0);
     });
-    it('should preserve index of message with tabindex=0 when list is grows', async () => {
+
+        it('should preserve index of message with tabindex=0 when list grows', async () => {
       const secondMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[1];
       secondMessage.dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
@@ -201,12 +202,12 @@ describe('message-list', () => {
 
     it('should preserve index of message with tabindex=0 when list is made shorter, but still have enough messages to preserve it', async () => {
       const secondMessage = messageList.shadowRoot.querySelectorAll('vaadin-message')[1];
-      // click on third item to give it tabindex=0
+      // click on second item to give it tabindex=0
       secondMessage.dispatchEvent(new CustomEvent('mousedown', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
       secondMessage.dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
 
-      // set message list to two items items
+      // set message list to two items
       messageList.items = [
         {
           text: 'This is a new list',
@@ -230,7 +231,7 @@ describe('message-list', () => {
 
       await nextRender(messageList);
       const messages = messageList.shadowRoot.querySelectorAll('vaadin-message');
-      // Verify that the first item got the new tabIndex=0.
+      // Verify that the second item got the new tabIndex=0.
       expect(messages[0].tabIndex).to.be.equal(-1);
       expect(messages[1].tabIndex).to.be.equal(0);
     });
