@@ -181,7 +181,7 @@ class MessageListElement extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _handleFocusEvent(e) {
     this._setTabIndexesByMessage(
-      e.composedPath().filter(elem => elem.tagName === 'VAADIN-MESSAGE')[0]);
+      e.composedPath().filter((elem) => elem.tagName.toLowerCase() === 'vaadin-message')[0]);
   }
   /**
    * @param {number} idx
