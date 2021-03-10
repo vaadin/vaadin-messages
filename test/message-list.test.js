@@ -12,22 +12,6 @@ function nextRender(target) {
   });
 }
 
-function verifyHasFocus(messageElements, message) {
-  messageElements.forEach((aMessage) => {
-    if (aMessage == message) {
-      expect(aMessage.hasAttribute('focused')).to.be.true;
-    } else {
-      expect(aMessage.hasAttribute('focused')).to.be.false;
-    }
-  });
-}
-
-function verifyNoFocus(messageElements) {
-  messageElements.forEach((aMessage) => {
-    expect(aMessage.hasAttribute('focused')).to.be.false;
-  });
-}
-
 describe('message-list', () => {
   let messageList, messages;
 
@@ -192,6 +176,7 @@ describe('message-list', () => {
 
   describe('mouse navigation', () => {
     let messageElements;
+
     beforeEach(async () => {
       messageList.items = messages;
       await nextRender(messageList);
@@ -203,7 +188,7 @@ describe('message-list', () => {
       messageElements[1].dispatchEvent(new CustomEvent('focus', { composed: true, bubbles: true }));
       messageElements[1].dispatchEvent(new CustomEvent('mouseup', { composed: true, bubbles: true }));
 
-      verifyHasFocus(messageElements, messageElements[1]);
+      expect(messageElements[1].hasAttribute('focused')).to.be.true;
       expect(messageElements[1].hasAttribute('focus-ring')).to.be.false;
       expect(messageElements[1].tabIndex).to.be.equal(0);
     });
@@ -211,6 +196,7 @@ describe('message-list', () => {
 
   describe('keyboard navigation', () => {
     let messageElements;
+
     beforeEach(async () => {
       messageList.items = messages;
       await nextRender(messageList);
@@ -238,56 +224,60 @@ describe('message-list', () => {
     }
 
     it('no focus before interaction', () => {
-      verifyNoFocus(messageElements);
+      messageElements.forEach((aMessage) => {
+        expect(aMessage.hasAttribute('focused')).to.be.false;
+      });
     });
 
     it('down arrow should select the next message', () => {
       arrowDown(messageElements[0]);
-      verifyHasFocus(messageElements, messageElements[1]);
+      expect(messageElements[0].hasAttribute('focused')).to.be.false;
+      expect(messageElements[1].hasAttribute('focused')).to.be.true;
     });
 
     it('down arrow on last message should select first message', () => {
       arrowDown(messageElements[3]);
-      verifyHasFocus(messageElements, messageElements[0]);
+      expect(messageElements[3].hasAttribute('focused')).to.be.false;
+      expect(messageElements[0].hasAttribute('focused')).to.be.true;
     });
 
     it('up arrow should select the next message', () => {
       arrowUp(messageElements[1]);
-      verifyHasFocus(messageElements, messageElements[0]);
+      expect(messageElements[1].hasAttribute('focused')).to.be.false;
+      expect(messageElements[0].hasAttribute('focused')).to.be.true;
     });
 
     it('up arrow on last message should select first message', () => {
       arrowUp(messageElements[0]);
-      verifyHasFocus(messageElements, messageElements[3]);
+      expect(messageElements[0].hasAttribute('focused')).to.be.false;
+      expect(messageElements[3].hasAttribute('focused')).to.be.true;
     });
 
     it('home on any message should select first message', () => {
       home(messageElements[2]);
-      verifyHasFocus(messageElements, messageElements[0]);
+      expect(messageElements[2].hasAttribute('focused')).to.be.false;
+      expect(messageElements[0].hasAttribute('focused')).to.be.true;
     });
 
     it('end on any message should select last message', () => {
       end(messageElements[1]);
-      verifyHasFocus(messageElements, messageElements[3]);
-    });
-
-    it('end on any message should select last message', () => {
-      end(messageElements[1]);
-      verifyHasFocus(messageElements, messageElements[3]);
+      expect(messageElements[1].hasAttribute('focused')).to.be.false;
+      expect(messageElements[3].hasAttribute('focused')).to.be.true;
     });
 
     it('holding down control while pressing keys should not do anything', () => {
       arrowDown(messageElements[1]);
-      keyDownOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
-      keyUpOn(messageElements[1], 40, ['ctrl'], 'ArrowDown');
-      verifyHasFocus(messageElements, messageElements[2]);
+      keyDownOn(messageElements[2], 40, ['ctrl'], 'ArrowDown');
+      keyUpOn(messageElements[2], 40, ['ctrl'], 'ArrowDown');
+      expect(messageElements[3].hasAttribute('focused')).to.be.false;
+      expect(messageElements[2].hasAttribute('focused')).to.be.true;
     });
 
     it('random unhandled key press should not affect focus', () => {
       arrowDown(messageElements[0]);
       keyDownOn(messageElements[1], 75, [], 'KeyK');
       keyUpOn(messageElements[1], 75, [], 'KeyK');
-      verifyHasFocus(messageElements, messageElements[1]);
+      expect(messageElements[1].hasAttribute('focused')).to.be.true;
     });
   });
 });

@@ -19,6 +19,7 @@ registerStyles(
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
     }
+
     :host([focus-ring]) {
       box-shadow: inset 0 0 0 2px var(--lumo-primary-color-50pct);
     }
