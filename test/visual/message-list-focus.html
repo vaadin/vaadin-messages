@@ -53,9 +53,9 @@
             userImg: '/test/visual/avatars/avatar.jpg'
           }
         ];
-        document.getElementById('tests').dataset.ready = true;
         setTimeout(() => {
           messageList.shadowRoot.querySelectorAll('vaadin-message')[1].focus();
+          document.getElementById('tests').dataset.ready = true;
         }, 0);
       });
     })();
