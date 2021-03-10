@@ -231,7 +231,7 @@ describe('message-list', () => {
 
       await nextRender(messageList);
       const messages = messageList.shadowRoot.querySelectorAll('vaadin-message');
-      // Verify that the first item got the new tabIndex=0.
+      // Verify that the second item got the new tabIndex=0.
       expect(messages[0].tabIndex).to.be.equal(-1);
       expect(messages[1].tabIndex).to.be.equal(0);
     });
