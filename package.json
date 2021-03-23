@@ -3,7 +3,7 @@
   "version": "2.0.0-alpha2",
   "description": "vaadin-messages",
   "main": "all-imports.js",
-  "module": "vaadin-all-imports.js",
+  "module": "all-imports.js",
   "repository": "vaadin/vaadin-messages",
   "keywords": [
     "Vaadin",
