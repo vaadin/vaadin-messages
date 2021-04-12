@@ -12,6 +12,10 @@ registerStyles(
     :host([dir='rtl']) {
       margin: 0 0 0 var(--lumo-space-s);
     }
+
+    .vaadin-text-area-container {
+      width: auto;
+    }
   `,
   { moduleId: 'lumo-message-input-text-area' }
 );
