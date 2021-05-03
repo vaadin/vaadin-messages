@@ -49,6 +49,83 @@ registerStyles(
       color: var(--lumo-secondary-text-color);
       font-size: var(--lumo-font-size-s);
     }
+
+    /*
+      "filled" theme variant:
+      Message has a light background color
+    */
+    :host([theme~='filled']) [part='content'] {
+      align-items: flex-start;
+    }
+
+    :host([theme~='filled']) [part='header'] {
+      margin-bottom: var(--lumo-space-xs);
+    }
+
+    :host([theme~='filled']) [part='message'] {
+      background-color: var(--lumo-contrast-5pct);
+      border-radius: var(--lumo-border-radius-l);
+      padding: var(--lumo-space-wide-m);
+    }
+
+    :host([theme~='filled'][theme~='primary']) [part='message'] {
+      background-color: var(--lumo-primary-color);
+      color: var(--lumo-primary-contrast-color);
+    }
+
+    /* 
+       "align-end" theme variant:
+       Message is aligned to the right (LTR) or left (RTL)
+    */
+    :host([theme~='align-end']) [part='content'] {
+      align-items: flex-end;
+    }
+
+    /* 
+       "message-first" theme variant:
+       Message placed on top of the header
+    */
+    :host([theme~='message-first']) [part='header'] {
+      order: 1;
+    }
+
+    /* Filled & message-first */
+    :host([theme~='filled'][theme~='message-first']) [part='header'] {
+      margin-bottom: 0;
+      margin-top: var(--lumo-space-xs);
+    }
+
+    /* 
+       "hide-name" theme variant:
+       The name is visually hidden (still read aloud by screen readers)
+    */
+    :host([theme~='hide-name']) [part='name'] {
+      border-width: 0;
+      clip: rect(0, 0, 0, 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+
+    /* 
+       "hide-time" theme variant:
+       Timestamp is visually hidden (still read aloud by screen readers)
+    */
+    :host([theme~='hide-time']) [part='time'] {
+      border-width: 0;
+      clip: rect(0, 0, 0, 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
   `,
   { moduleId: 'lumo-message' }
 );

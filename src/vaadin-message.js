@@ -141,6 +141,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         color-index="[[userColorIndex]]"
         tabindex="-1"
         aria-hidden="true"
+        theme$="[[theme]]"
       ></vaadin-message-avatar>
       <div part="content">
         <div part="header">
