@@ -1,31 +1,39 @@
 import { registerStyles, css } from '@vaadin/vaadin-themable-mixin/register-styles.js';
 import '@vaadin/vaadin-material-styles/color.js';
 import '@vaadin/vaadin-material-styles/typography.js';
-import '@vaadin/vaadin-avatar/theme/material/vaadin-avatar-styles.js';
+import './vaadin-message-avatar-styles.js';
 
 registerStyles(
   'vaadin-message',
   css`
     :host {
+      color: var(--material-body-text-color);
       font-family: var(--material-font-family);
       font-size: var(--material-body-font-size);
       line-height: 1.5;
-      padding: 0.875em 1em;
+      padding: 0.75rem 1rem;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
     }
 
-    vaadin-avatar {
-      height: 2.5em;
-      margin-right: 1em;
-      margin-top: 0.125em;
-      width: 2.5em;
+    :host(:hover:not([disabled])) {
+      background-color: var(--material-secondary-background-color);
     }
 
-    :host([dir='rtl']) vaadin-avatar {
-      margin-left: 1em;
-      margin-right: 0;
+    :host([focused]:not([disabled])) {
+      background-color: var(--material-divider-color);
+    }
+
+    @media (pointer: coarse) {
+      :host(:hover:not([disabled])),
+      :host([focused]:not([disabled])) {
+        background-color: transparent;
+      }
+    }
+
+    [part='header'] {
+      min-height: calc(var(--material-body-font-size) * 1.5);
     }
 
     :host([theme~='system']) vaadin-avatar {
@@ -45,20 +53,23 @@ registerStyles(
     }
 
     [part='name'] {
-      margin-right: auto;
+      margin-right: 0.5rem;
     }
 
-    :host([dir='rtl']) [part='name'] {
-      margin-left: auto;
+    [part='name']:empty {
       margin-right: 0;
     }
 
-    [part='time'] {
-      color: var(--material-secondary-text-color);
-      font-size: var(--material-caption-font-size);
+    :host([dir='rtl']) [part='name'] {
+      margin-left: 0.5rem;
+      margin-right: 0;
     }
 
-    [part='message'] {
+    :host([dir='rtl']) [part='name']:empty {
+      margin-left: 0;
+    }
+
+    [part='time'] {
       color: var(--material-secondary-text-color);
       font-size: var(--material-small-font-size);
       line-height: 1.25rem;

@@ -1,9 +1,9 @@
 {
   "name": "@vaadin/vaadin-messages",
-  "version": "2.0.0-alpha1",
+  "version": "1.0.1",
   "description": "vaadin-messages",
-  "main": "vaadin-message.js",
-  "module": "vaadin-message.js",
+  "main": "all-imports.js",
+  "module": "all-imports.js",
   "repository": "vaadin/vaadin-messages",
   "keywords": [
     "Vaadin",
@@ -23,6 +23,8 @@
   "files": [
     "vaadin-*.d.ts",
     "vaadin-*.js",
+    "all-imports.d.ts",
+    "all-imports.js",
     "src",
     "theme"
   ],
@@ -56,12 +58,12 @@
   },
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "@vaadin/vaadin-avatar": "^2.0.0",
+    "@vaadin/vaadin-avatar": "^1.0.4",
     "@vaadin/vaadin-button": "^2.4.0",
     "@vaadin/vaadin-element-mixin": "^2.4.2",
     "@vaadin/vaadin-lumo-styles": "^1.6.1",
     "@vaadin/vaadin-material-styles": "^1.3.2",
-    "@vaadin/vaadin-text-field": "^3.0.1",
+    "@vaadin/vaadin-text-field": "^2.8.4",
     "@vaadin/vaadin-themable-mixin": "^1.6.2"
   },
   "devDependencies": {
@@ -81,7 +83,7 @@
     "hermione-sauce": "^0.1.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
-    "magi-cli": "^0.28.0",
+    "magi-cli": "^0.29.2",
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.34.1",

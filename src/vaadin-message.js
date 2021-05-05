@@ -6,7 +6,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin/vaadin-element-mixin.js';
-import '@vaadin/vaadin-avatar/src/vaadin-avatar.js';
+import './vaadin-message-avatar.js';
 /**
  * `<vaadin-message>` is a Web Component for showing a single message with an author, message and time.
  *
@@ -105,6 +105,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         :host {
           display: flex;
           flex-direction: row;
+          outline: none;
         }
 
         :host([hidden]) {
@@ -136,11 +137,15 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
           flex-wrap: wrap;
         }
 
+        [part='name'] {
+          font-weight: 500;
+        }
+
         [part='message'] {
           white-space: pre-wrap;
         }
       </style>
-      <vaadin-avatar
+      <vaadin-message-avatar
         part="avatar"
         name="[[userName]]"
         abbr="[[userAbbr]]"
@@ -148,7 +153,7 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
         color-index="[[userColorIndex]]"
         tabindex="-1"
         aria-hidden="true"
-      ></vaadin-avatar>
+      ></vaadin-message-avatar>
       <div part="content">
         <div part="header">
           <span part="name">[[userName]]</span>
@@ -159,16 +164,44 @@ class MessageElement extends ElementMixin(ThemableMixin(PolymerElement)) {
     `;
   }
 
-  ready() {
-    super.ready();
-  }
-
   static get is() {
     return 'vaadin-message';
   }
 
   static get version() {
-    return '2.0.0-alpha1';
+    return '1.0.1';
+  }
+
+  ready() {
+    super.ready();
+
+    // Handle focus
+    this.addEventListener('focus', () => this._setFocused(true), true);
+    this.addEventListener('blur', () => this._setFocused(false), true);
+    this.addEventListener('mousedown', () => {
+      this._mousedown = true;
+      const mouseUpListener = () => {
+        this._mousedown = false;
+        document.removeEventListener('mouseup', mouseUpListener);
+      };
+      document.addEventListener('mouseup', mouseUpListener);
+    });
+  }
+
+  /**
+   * @param {boolean} focused
+   * @protected
+   */
+  _setFocused(focused) {
+    if (focused) {
+      this.setAttribute('focused', '');
+      if (!this._mousedown) {
+        this.setAttribute('focus-ring', '');
+      }
+    } else {
+      this.removeAttribute('focused');
+      this.removeAttribute('focus-ring');
+    }
   }
 }
 
