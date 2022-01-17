@@ -1,0 +1,61 @@
+name: Unit Tests
+
+# all pull requests
+on: pull_request
+
+jobs:
+  local:
+    name: Local browsers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node 12.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+
+      - name: Check out the source code
+        uses: actions/checkout@v2
+
+      - name: Install latest npm
+        # magi-cli 1.0 requires npm 7 or higher
+        run: "npm install -g npm@8"
+
+      - name: Install project npm dependencies
+        run: "npm ci"
+
+      - name: Check version
+        run: "npm run check-version"
+
+      - name: "Lint JavaScript"
+        run: "npm run lint:js"
+
+      - name: Lint CSS
+        run: "npm run lint:css"
+
+      - name: Run tests
+        run: "npm test"
+
+  sauce:
+    name: SauceLabs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node 12.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+
+      - name: Check out the source code
+        uses: actions/checkout@v2
+
+      - name: Install latest npm
+        # magi-cli 1.0 requires npm 7 or higher
+        run: "npm install -g npm@8"
+
+      - name: Install project npm dependencies
+        run: "npm ci"
+
+      - name: SauceLabs tests
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+        run: "npm run test:sauce"

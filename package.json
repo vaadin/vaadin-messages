@@ -83,7 +83,7 @@
     "hermione-sauce": "^0.1.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
-    "magi-cli": "^0.29.2",
+    "magi-cli": "^1.2.0-pre.1",
     "prettier": "^2.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.34.1",
