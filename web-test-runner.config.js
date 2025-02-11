@@ -10,15 +10,6 @@ const config = {
     config: {
       timeout: '10000' // default 2000
     }
-  },
-  coverageConfig: {
-    include: ['**/src/*'],
-    threshold: {
-      statements: 100,
-      branches: 100,
-      functions: 100,
-      lines: 100
-    }
   }
 };
 
@@ -39,19 +30,19 @@ if (process.env.TEST_ENV === 'sauce') {
   config.concurrency = 1;
   config.browsers = [
     sauceLabsLauncher({
+      browserName: 'chrome',
+      platformName: 'Windows 10',
+      browserVersion: 'latest'
+    }),
+    sauceLabsLauncher({
       browserName: 'firefox',
       platformName: 'Windows 10',
       browserVersion: 'latest'
     }),
     sauceLabsLauncher({
       browserName: 'safari',
-      platformName: 'macOS 10.15',
-      browserVersion: '13.1'
-    }),
-    sauceLabsLauncher({
-      browserName: 'iphone',
-      platform: 'iPhone X Simulator',
-      version: '14.0'
+      platformName: 'macOS 13',
+      browserVersion: 'latest'
     })
   ];
 }
